@@ -15,13 +15,13 @@ import org.frcteam2910.common.robot.drivers.NavX;
 import org.frcteam2910.common.robot.subsystems.SwerveDrivetrain;
 
 public class DrivetrainSubsystem extends SwerveDrivetrain {
-    private static final double TRACKWIDTH = 19.5;
+    private static final double TRACKWIDTH = 21.5;
     private static final double WHEELBASE = 23.5;
 
-    private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(0.0);
-    private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(0.0);
-    private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(0.0);
-    private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(0.0);
+    private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(357.16);
+    private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(359.11);
+    private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(238.53);
+    private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(140.59);
 
     private static final Object INSTANCE_LOCK = new Object();
     private static DrivetrainSubsystem instance;

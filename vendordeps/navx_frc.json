@@ -17,7 +17,7 @@
     "jniDependencies": [],
     "cppDependencies": [
         {
-            "groupId": "com.kauailabs.navx.frc",
+            "groupId": "com.kauailabs.navx.fsrc",
             "artifactId": "navx-cpp",
             "version": "3.1.377",
             "headerClassifier": "headers",
