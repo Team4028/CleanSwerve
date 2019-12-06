@@ -18,9 +18,27 @@ public class OI {
                         DrivetrainSubsystem.getInstance().getGyroscope().getUnadjustedAngle())
                 )
         );
+
+
     }
 
     public Joystick getPrimaryJoystick() {
         return primaryJoystick;
+    }
+
+    public double getRawForwadCmd(){
+        return primaryJoystick.getRawAxis(1);
+    }
+
+    public double getRawStrafeCmd(){
+        return primaryJoystick.getRawAxis(0);
+    }
+
+    public double getRawRotationCmd(){
+        return primaryJoystick.getRawAxis(4);
+    }
+
+    public double getRawSpeedScaleCmd(){
+        return primaryJoystick.getRawAxis(3);
     }
 }

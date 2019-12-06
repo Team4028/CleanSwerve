@@ -14,17 +14,22 @@ public class DriveCommand extends Command {
 
     @Override
     protected void execute() {
-        double forward = -Robot.getOi().getPrimaryJoystick().getRawAxis(1);
+        //All of the holonomic drive command, fwd, strafe, and rot are scaled by speedScale.
+        double controllerSpeedScale = Robot.getOi().getRawSpeedScaleCmd();
+        //square the speed scale trigger, and minimize it at .4
+        controllerSpeedScale = .4 + .6 * controllerSpeedScale * controllerSpeedScale;
+
+        double forward = -Robot.getOi().getRawForwadCmd();
         // Square the forward stick
-        forward = Math.copySign(Math.pow(forward, 2.0), forward);
+        forward = Math.copySign(Math.pow(forward, 2.0), forward) * controllerSpeedScale;
 
-        double strafe = -Robot.getOi().getPrimaryJoystick().getRawAxis(0);
+        double strafe = -Robot.getOi().getRawStrafeCmd();
         // Square the strafe stick
-        strafe = Math.copySign(Math.pow(strafe, 2.0), strafe);
+        strafe = Math.copySign(Math.pow(strafe, 2.0), strafe) * controllerSpeedScale;
 
-        double rotation = -Robot.getOi().getPrimaryJoystick().getRawAxis(4);
+        double rotation = -Robot.getOi().getRawRotationCmd();
         // Square the rotation stick
-        rotation = Math.copySign(Math.pow(rotation, 2.0), rotation);
+        rotation = Math.copySign(Math.pow(rotation, 2.0), rotation) * controllerSpeedScale;
 
         DrivetrainSubsystem.getInstance().holonomicDrive(new Vector2(forward, strafe), rotation, true);
     }
