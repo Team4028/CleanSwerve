@@ -1,5 +1,6 @@
 package com.swervedrivespecialties.exampleswerve;
 
+import com.swervedrivespecialties.exampleswerve.commands.ZeroGyro;
 import com.swervedrivespecialties.exampleswerve.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -13,15 +14,9 @@ public class OI {
 
     public OI() {
         // Back button zeroes the drivetrain
-        new JoystickButton(primaryJoystick, 7).whenPressed(
-                new InstantCommand(() -> DrivetrainSubsystem.getInstance().getGyroscope().setAdjustmentAngle(
-                        DrivetrainSubsystem.getInstance().getGyroscope().getUnadjustedAngle())
-                )
-        );
-
-
+        new JoystickButton(primaryJoystick, 7).whenPressed(new ZeroGyro());
     }
-
+    
     public Joystick getPrimaryJoystick() {
         return primaryJoystick;
     }

@@ -31,7 +31,9 @@ public class DriveCommand extends Command {
         // Square the rotation stick
         rotation = Math.copySign(Math.pow(rotation, 2.0), rotation) * controllerSpeedScale;
 
-        DrivetrainSubsystem.getInstance().holonomicDrive(new Vector2(forward, strafe), rotation, true);
+        boolean isFieldOriented = DrivetrainSubsystem.getInstance().getFieldOriented();
+
+        DrivetrainSubsystem.getInstance().holonomicDrive(new Vector2(forward, strafe), rotation, isFieldOriented);
     }
 
     @Override

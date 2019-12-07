@@ -30,6 +30,8 @@ public class DrivetrainSubsystem extends SwerveDrivetrain {
 
     private final Gyroscope gyroscope = new NavX(SPI.Port.kMXP);
 
+    private boolean _isFieldOriented = true; //When the robot starts up, the drivetrain is field oriented.
+
     public DrivetrainSubsystem() {
         gyroscope.calibrate();
         gyroscope.setInverted(true); // You might not need to invert the gyro
@@ -111,5 +113,13 @@ public class DrivetrainSubsystem extends SwerveDrivetrain {
     @Override
     protected void initDefaultCommand() {
         setDefaultCommand(new DriveCommand());
+    }
+
+    public void toggleFieldOriented(){
+        _isFieldOriented = !_isFieldOriented;
+    }
+
+    public boolean getFieldOriented(){
+        return _isFieldOriented;
     }
 }
