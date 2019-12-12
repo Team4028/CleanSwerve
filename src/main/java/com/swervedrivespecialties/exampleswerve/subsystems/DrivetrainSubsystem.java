@@ -32,6 +32,8 @@ public class DrivetrainSubsystem extends SwerveDrivetrain {
 
     private boolean _isFieldOriented = true; //When the robot starts up, the drivetrain is field oriented.
 
+    private double curMinSpeed = .25;
+
     public DrivetrainSubsystem() {
         gyroscope.calibrate();
         gyroscope.setInverted(true); // You might not need to invert the gyro
@@ -121,5 +123,21 @@ public class DrivetrainSubsystem extends SwerveDrivetrain {
 
     public boolean getFieldOriented(){
         return _isFieldOriented;
+    }
+
+    public void toggleMinSpeed(){
+        if (curMinSpeed == 1.){
+            curMinSpeed = .25;
+        } else {
+            curMinSpeed += .25;
+        }
+    }
+
+    public void resetMinSpeed(){
+        curMinSpeed = .25;
+    }
+
+    public double getMinSpeed(){
+        return curMinSpeed;
     }
 }

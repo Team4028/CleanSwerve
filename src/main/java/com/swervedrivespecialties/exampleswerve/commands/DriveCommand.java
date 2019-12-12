@@ -2,7 +2,6 @@ package com.swervedrivespecialties.exampleswerve.commands;
 
 import com.swervedrivespecialties.exampleswerve.Robot;
 import com.swervedrivespecialties.exampleswerve.subsystems.DrivetrainSubsystem;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
 import org.frcteam2910.common.math.Vector2;
 
@@ -14,10 +13,12 @@ public class DriveCommand extends Command {
 
     @Override
     protected void execute() {
+        double minSpeedScale = DrivetrainSubsystem.getInstance().getMinSpeed();
+
         //All of the holonomic drive command, fwd, strafe, and rot are scaled by speedScale.
         double controllerSpeedScale = Robot.getOi().getRawSpeedScaleCmd();
         //square the speed scale trigger, and minimize it at .4
-        controllerSpeedScale = .4 + .6 * controllerSpeedScale * controllerSpeedScale;
+        controllerSpeedScale = minSpeedScale + (1 - minSpeedScale) * controllerSpeedScale * controllerSpeedScale;
 
         double forward = -Robot.getOi().getRawForwadCmd();
         // Square the forward stick
