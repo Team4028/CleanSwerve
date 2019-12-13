@@ -1,12 +1,16 @@
 package com.swervedrivespecialties.exampleswerve;
 
+import com.swervedrivespecialties.exampleswerve.commands.LineDrive;
 import com.swervedrivespecialties.exampleswerve.commands.RotateToAngle;
 import com.swervedrivespecialties.exampleswerve.commands.RotateToAngleTimed;
 import com.swervedrivespecialties.exampleswerve.commands.RotateToLLTargetTimed;
 import com.swervedrivespecialties.exampleswerve.commands.ToggleFieldOriented;
 import com.swervedrivespecialties.exampleswerve.commands.ToggleMinSpeed;
+import com.swervedrivespecialties.exampleswerve.commands.TranslateCommandLL;
 import com.swervedrivespecialties.exampleswerve.commands.ZeroGyro;
 import com.swervedrivespecialties.exampleswerve.util.BeakXboxController;
+
+import org.frcteam2910.common.math.Vector2;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
@@ -25,6 +29,8 @@ public class OI {
         primaryJoystick.back.whenPressed(new ZeroGyro());
         primaryJoystick.x.whenPressed(new RotateToLLTargetTimed(1.5));
         primaryJoystick.start.whenPressed(new ToggleFieldOriented());
+        primaryJoystick.lb.whenPressed(new TranslateCommandLL());
+        primaryJoystick.rb.whenPressed(new LineDrive(new Vector2(48, 0), true));
 
         primaryJoystick.dPad.up.whenPressed(new RotateToAngleTimed(0, 1.5));
 		primaryJoystick.dPad.upLeft.whenPressed(new RotateToAngleTimed(45, 1.5));

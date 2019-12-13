@@ -1,10 +1,13 @@
 package com.swervedrivespecialties.exampleswerve;
 
+import com.swervedrivespecialties.exampleswerve.commands.LineDrive;
 import com.swervedrivespecialties.exampleswerve.commands.RunTalonSubsystem;
 import com.swervedrivespecialties.exampleswerve.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.frcteam2910.common.robot.subsystems.SubsystemManager;
 
 public class Robot extends TimedRobot {
@@ -36,6 +39,16 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         super.teleopPeriodic();
         System.out.println(DrivetrainSubsystem.getInstance().getMinSpeed());
+        SmartDashboard.putNumber("KinematicPositionX", DrivetrainSubsystem.getInstance().getKinematicPosition().x);
+        SmartDashboard.putNumber("KinematicPositionY", DrivetrainSubsystem.getInstance().getKinematicPosition().y);
+        try {
+            SmartDashboard.putNumber("TargetPosX", LineDrive._targetVec.x);
+            SmartDashboard.putNumber("TargetPosY", LineDrive._targetVec.y);
+            SmartDashboard.putNumber("Dist: ", LineDrive._targetVec.subtract(DrivetrainSubsystem.getInstance().getKinematicPosition()).length);
+        } catch (Exception e){}
+
+
+
     }
 
     @Override
