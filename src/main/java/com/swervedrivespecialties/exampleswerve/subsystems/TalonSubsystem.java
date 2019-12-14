@@ -30,7 +30,6 @@ public class TalonSubsystem extends Subsystem{
 
     public void runTalonA(boolean shouldRun){
         if (shouldRun){
-            System.out.println("What the Heck");
             _talonA.set(ControlMode.PercentOutput, kTalonADefaultVBUS);
         } else {
             _talonA.set(ControlMode.PercentOutput, 0);

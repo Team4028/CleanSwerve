@@ -1,6 +1,7 @@
 package com.swervedrivespecialties.exampleswerve;
 
 import com.swervedrivespecialties.exampleswerve.commands.LineDrive;
+import com.swervedrivespecialties.exampleswerve.autonomous.Trajectories;
 import com.swervedrivespecialties.exampleswerve.commands.RunTalonSubsystem;
 import com.swervedrivespecialties.exampleswerve.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -38,7 +39,6 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         super.teleopPeriodic();
-        System.out.println(DrivetrainSubsystem.getInstance().getMinSpeed());
         SmartDashboard.putNumber("KinematicPositionX", DrivetrainSubsystem.getInstance().getKinematicPosition().x);
         SmartDashboard.putNumber("KinematicPositionY", DrivetrainSubsystem.getInstance().getKinematicPosition().y);
         try {
@@ -54,6 +54,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         subsystemManager.enableKinematicLoop(UPDATE_DT);
+        Trajectories.generateAllTrajectories();
     }
 
     @Override
