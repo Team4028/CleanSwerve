@@ -1,6 +1,7 @@
 package com.swervedrivespecialties.exampleswerve;
 
 import com.swervedrivespecialties.exampleswerve.commands.LineDrive;
+import com.swervedrivespecialties.exampleswerve.commands.QuickMath;
 import com.swervedrivespecialties.exampleswerve.autonomous.Trajectories;
 import com.swervedrivespecialties.exampleswerve.commands.RunTalonSubsystem;
 import com.swervedrivespecialties.exampleswerve.subsystems.DrivetrainSubsystem;
@@ -9,6 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.frcteam2910.common.math.Vector2;
 import org.frcteam2910.common.robot.subsystems.SubsystemManager;
 
 public class Robot extends TimedRobot {
@@ -37,6 +39,13 @@ public class Robot extends TimedRobot {
     }
 
     @Override
+    public void autonomousInit() {
+        super.autonomousInit();
+        Command command = new QuickMath();
+        command.start();
+    }
+
+    @Override
     public void teleopPeriodic() {
         super.teleopPeriodic();
         SmartDashboard.putNumber("KinematicPositionX", DrivetrainSubsystem.getInstance().getKinematicPosition().x);
@@ -46,9 +55,6 @@ public class Robot extends TimedRobot {
             SmartDashboard.putNumber("TargetPosY", LineDrive._targetVec.y);
             SmartDashboard.putNumber("Dist: ", LineDrive._targetVec.subtract(DrivetrainSubsystem.getInstance().getKinematicPosition()).length);
         } catch (Exception e){}
-
-
-
     }
 
     @Override

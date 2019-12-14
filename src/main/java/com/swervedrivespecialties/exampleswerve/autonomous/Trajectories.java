@@ -34,13 +34,13 @@ public class Trajectories {
                                                                              new MaxAccelerationConstraint(kMaxAccel), 
                                                                              new CentripetalAccelerationConstraint(kMaxCentripedalAccel)};
     private static final double testTrajectoryEndVelo = 3 * 12;
-    private static final Rotation2 testPathRotation = Rotation2.fromDegrees(-90.);
+    private static final Rotation2 testPathRotation = Rotation2.ZERO; //Rotation2.fromDegrees(-90);
     private static final Rotation2 testPathStartRotation = Rotation2.ZERO;
 
     private static void generateTestTrajectory(){
         Path testPath = new Path(testPathStartRotation);
-        testPath.addSegment(new PathLineSegment(Vector2.ZERO, new Vector2(24, 0)));
-        testPath.addSegment(new PathArcSegment(new Vector2(24, 0), new Vector2(72, -48), new Vector2(24, -48)), testPathRotation);
+        testPath.addSegment(new PathLineSegment(Vector2.ZERO, new Vector2(120, 0)), testPathRotation);
+        //testPath.addSegment(new PathArcSegment(new Vector2(24, 0), new Vector2(72, -48), new Vector2(24, -48)), testPathRotation);
         testPath.subdivide(kSubdivideIterations);
         testTrajectory = new Trajectory(0.0, testTrajectoryEndVelo, testPath, testTrajectoryConstraints);
     }

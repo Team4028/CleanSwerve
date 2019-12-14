@@ -33,9 +33,9 @@ public class FollowTrajectory extends Command {
 
   ///////////// PATH FOLLOWING CONSTANTS //////////////////
   private static final double kMaxVelo = 12 * 12; //This is the physical max velocity of the machine, not of any path
-  private static final double kInterceptVoltage = .03; //the physical minimum voltage to make the robot move forward
+  private static final double kInterceptVoltage = .018809; //the physical minimum voltage to make the robot move forward
   private static final double kPathFollowingAccelFeedForward = 0;
-  private static final double kPathFollowingTranslationP = .05;
+  private static final double kPathFollowingTranslationP = .06;
   private static final double kPathFollowingTranslationI = 0;
   private static final double kPathFollowingTranslationD = 0;
   private static final double kPathFollowingRotationP = .45;

@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class RotateToAngle extends Command {
 
   private static DrivetrainSubsystem _drivetrainSubsystem = DrivetrainSubsystem.getInstance();
-  private PidController _pidController = new PidController(new PidConstants(0.007, 0, .0005));
+  private PidController _pidController = new PidController(new PidConstants(0.007, 0, .0005));//#TODO tune to be more aggressive.
   private double _currentTime, _target;
   private double kAcceptableError = 0.8;
 
