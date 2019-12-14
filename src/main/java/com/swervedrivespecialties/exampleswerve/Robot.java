@@ -1,5 +1,6 @@
 package com.swervedrivespecialties.exampleswerve;
 
+import com.swervedrivespecialties.exampleswerve.autonomous.Trajectories;
 import com.swervedrivespecialties.exampleswerve.commands.RunTalonSubsystem;
 import com.swervedrivespecialties.exampleswerve.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -41,6 +42,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         subsystemManager.enableKinematicLoop(UPDATE_DT);
+        Trajectories.generateAllTrajectories();
     }
 
     @Override
