@@ -4,7 +4,6 @@ import com.swervedrivespecialties.exampleswerve.commands.LineDrive;
 import com.swervedrivespecialties.exampleswerve.commands.QuickMath;
 import com.swervedrivespecialties.exampleswerve.autonomous.Trajectories;
 import com.swervedrivespecialties.exampleswerve.commands.RunTalonSubsystem;
-import com.swervedrivespecialties.exampleswerve.commands.TranslateCommandLL;
 import com.swervedrivespecialties.exampleswerve.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -56,7 +55,6 @@ public class Robot extends TimedRobot {
             SmartDashboard.putNumber("TargetPosY", LineDrive._targetVec.y);
             SmartDashboard.putNumber("Dist: ", LineDrive._targetVec.subtract(DrivetrainSubsystem.getInstance().getKinematicPosition()).length);
         } catch (Exception e){}
-        SmartDashboard.putNumber("LL Skew", TranslateCommandLL.getSkew() * 4);
     }
 
     @Override

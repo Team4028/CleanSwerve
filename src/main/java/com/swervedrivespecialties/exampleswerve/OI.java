@@ -33,7 +33,6 @@ public class OI {
         // primaryJoystick.lb.whenPressed(new TranslateCommandLL());
         //primaryJoystick.rb.whenPressed(new LineDrive(new Vector2(48, 0), true));
         primaryJoystick.lb.whenPressed(new FollowTrajectory(Trajectories.testTrajectorySupplier));
-        primaryJoystick.rb.whenPressed(new TranslateCommandLL());
 
         primaryJoystick.dPad.up.whenPressed(new RotateToAngleTimed(0, 2.5));
 		primaryJoystick.dPad.upLeft.whenPressed(new RotateToAngleTimed(45, 2.5));
