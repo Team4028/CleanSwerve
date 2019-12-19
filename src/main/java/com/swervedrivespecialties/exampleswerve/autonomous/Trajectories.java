@@ -24,7 +24,7 @@ public class Trajectories {
     ////////// UNIVERSAL TRAJECTORY CONSTANTS /////////////
     private static final int kSubdivideIterations = 8;
     private static final double kDefaultMaxSpeed = 10 * 12;
-    private static final double kMaxAccel = 13. * 12;
+    private static final double kMaxAccel = 11. * 12;
     private static final double kMaxCentripedalAccel = 25. * 12;
 
     ////////////// TEST TRAJECTORY ////////////////////////
@@ -83,6 +83,17 @@ public class Trajectories {
                                                              new MaxAccelerationConstraint(kMaxAccel), 
                                                              new CentripetalAccelerationConstraint(kMaxCentripedalAccel)};
         Path linePath = new Path(Rotation2.ZERO);
+        linePath.addSegment(new PathLineSegment(Vector2.ZERO, line), endRotation);
+        linePath.subdivide(kSubdivideIterations);
+        Trajectory resultTrajectory = new Trajectory(0.0, 0.0, linePath, lineTrajectoryConstraints);
+        return resultTrajectory;
+    }
+
+    public static Trajectory generateLineTrajectory(Vector2 line, Rotation2 startRotation, Rotation2 endRotation){
+        ITrajectoryConstraint[] lineTrajectoryConstraints = {new MaxVelocityConstraint(kDefaultMaxSpeed), 
+                                                             new MaxAccelerationConstraint(kMaxAccel), 
+                                                             new CentripetalAccelerationConstraint(kMaxCentripedalAccel)};
+        Path linePath = new Path(startRotation);
         linePath.addSegment(new PathLineSegment(Vector2.ZERO, line), endRotation);
         linePath.subdivide(kSubdivideIterations);
         Trajectory resultTrajectory = new Trajectory(0.0, 0.0, linePath, lineTrajectoryConstraints);

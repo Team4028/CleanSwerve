@@ -1,6 +1,7 @@
 package com.swervedrivespecialties.exampleswerve;
 
 import com.swervedrivespecialties.exampleswerve.commands.LineDrive;
+import com.swervedrivespecialties.exampleswerve.commands.RobotOrientedLineDrive;
 import com.swervedrivespecialties.exampleswerve.commands.RotateToAngle;
 import com.swervedrivespecialties.exampleswerve.autonomous.Trajectories;
 import com.swervedrivespecialties.exampleswerve.commands.FollowTrajectory;
@@ -12,6 +13,7 @@ import com.swervedrivespecialties.exampleswerve.commands.TranslateCommandLL;
 import com.swervedrivespecialties.exampleswerve.commands.ZeroGyro;
 import com.swervedrivespecialties.exampleswerve.util.BeakXboxController;
 
+import org.frcteam2910.common.math.Rotation2;
 import org.frcteam2910.common.math.Vector2;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -31,9 +33,10 @@ public class OI {
         primaryJoystick.x.whenPressed(new RotateToLLTargetTimed(1.5));
         primaryJoystick.start.whenPressed(new ToggleFieldOriented());
         // primaryJoystick.lb.whenPressed(new TranslateCommandLL());
-        //primaryJoystick.rb.whenPressed(new LineDrive(new Vector2(48, 0), true));
-        primaryJoystick.lb.whenPressed(new FollowTrajectory(Trajectories.testTrajectorySupplier));
+        //primaryJoystick.lb.whenPressed(new LineDrive(new Vector2(60, 0), Rotation2.ZERO, 5));
+        //primaryJoystick.lb.whenPressed(new FollowTrajectory(Trajectories.testTrajectorySupplier));
         primaryJoystick.rb.whenPressed(new TranslateCommandLL());
+        primaryJoystick.lb.whenPressed(new LineDrive(new Vector2(420 * .1, -69)));
 
         primaryJoystick.dPad.up.whenPressed(new RotateToAngleTimed(0, 2.5));
 		primaryJoystick.dPad.upLeft.whenPressed(new RotateToAngleTimed(45, 2.5));

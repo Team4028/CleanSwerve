@@ -51,11 +51,6 @@ public class Robot extends TimedRobot {
         super.teleopPeriodic();
         SmartDashboard.putNumber("KinematicPositionX", DrivetrainSubsystem.getInstance().getKinematicPosition().x);
         SmartDashboard.putNumber("KinematicPositionY", DrivetrainSubsystem.getInstance().getKinematicPosition().y);
-        try {
-            SmartDashboard.putNumber("TargetPosX", LineDrive._targetVec.x);
-            SmartDashboard.putNumber("TargetPosY", LineDrive._targetVec.y);
-            SmartDashboard.putNumber("Dist: ", LineDrive._targetVec.subtract(DrivetrainSubsystem.getInstance().getKinematicPosition()).length);
-        } catch (Exception e){}
         SmartDashboard.putNumber("Skew", TranslateCommandLL.getSkew());
         SmartDashboard.putNumber("LLYaw", TranslateCommandLL.getLLYaw());
         SmartDashboard.putNumber("LLXOFF", TranslateCommandLL.getXOff());
