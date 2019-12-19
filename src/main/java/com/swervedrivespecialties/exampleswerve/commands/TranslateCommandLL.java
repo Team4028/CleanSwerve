@@ -50,7 +50,7 @@ public class TranslateCommandLL extends Command {
   private PidController _transPIDController = new PidController(new PidConstants(pTrans, iTrans, dTrans));
   private PidController _rotPIDController = new PidController(new PidConstants(pRot, iRot, dRot));
 
-  private double[] defaultValArray = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+  private static double[] defaultValArray = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
   private DrivetrainSubsystem _driveTrainSubsystem = DrivetrainSubsystem.getInstance();
 
@@ -106,4 +106,17 @@ public class TranslateCommandLL extends Command {
   protected void interrupted() {
   }
 
+  public static double getSkew(){
+    double raw =  NetworkTableInstance.getDefault().getTable("limelight").getEntry("ts").getDouble(0);
+    return Math.PI*Math.min(-raw, 90 + raw);
+  }
+  public static double getTX(){
+    return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+  }
+  public static double getXOff(){
+    return NetworkTableInstance.getDefault().getTable("limelight").getEntry("camtran").getDoubleArray(defaultValArray)[0];
+  }
+  public static double getLLYaw(){
+    return NetworkTableInstance.getDefault().getTable("limelight").getEntry("camtran").getDoubleArray(defaultValArray)[4];
+  }
 }

@@ -29,7 +29,7 @@ public class Trajectories {
 
     ////////////// TEST TRAJECTORY ////////////////////////
     private static Trajectory testTrajectory;
-    private static final double testTrajectoryMaxVelo = 6 * 12;
+    private static final double testTrajectoryMaxVelo = 12 * 12;
     private static final ITrajectoryConstraint[] testTrajectoryConstraints = {new MaxVelocityConstraint(testTrajectoryMaxVelo), 
                                                                              new MaxAccelerationConstraint(kMaxAccel), 
                                                                              new CentripetalAccelerationConstraint(kMaxCentripedalAccel)};
@@ -78,8 +78,7 @@ public class Trajectories {
 
 
     /////////////////// Helper Methods /////////////////////////
-
-    private static Trajectory generateLineTrajectory(Vector2 line, Rotation2 endRotation){
+    public static Trajectory generateLineTrajectory(Vector2 line, Rotation2 endRotation){
         ITrajectoryConstraint[] lineTrajectoryConstraints = {new MaxVelocityConstraint(kDefaultMaxSpeed), 
                                                              new MaxAccelerationConstraint(kMaxAccel), 
                                                              new CentripetalAccelerationConstraint(kMaxCentripedalAccel)};
