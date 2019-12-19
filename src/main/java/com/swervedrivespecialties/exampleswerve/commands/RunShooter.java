@@ -7,36 +7,32 @@
 
 package com.swervedrivespecialties.exampleswerve.commands;
 
-import com.swervedrivespecialties.exampleswerve.OI;
-import com.swervedrivespecialties.exampleswerve.Robot;
-import com.swervedrivespecialties.exampleswerve.subsystems.TalonSubsystem;
+import com.swervedrivespecialties.exampleswerve.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class RunTalonSubsystem extends Command {
+public class RunShooter extends Command {
 
-  TalonSubsystem _TalonSubsystem = TalonSubsystem.getInstance();
+  Shooter _shooter = Shooter.getInstance();
 
-  public RunTalonSubsystem() {
+  public RunShooter() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(_TalonSubsystem);
+    requires(_shooter);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    _TalonSubsystem.runTalonA(Robot.getOi().getTalonACmd());
-    _TalonSubsystem.runTalonB(Robot.getOi().getTalonBCmd());
-    _TalonSubsystem.runTalonC(Robot.getOi().getTalonCCmd());
+    _shooter.runShooter(_shooter.getShouldRunShooter());
+    _shooter.runShooter(_shooter.getShouldRunFeeder());
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    _TalonSubsystem.runTalonA(Robot.getOi().getTalonACmd());
-    _TalonSubsystem.runTalonB(Robot.getOi().getTalonBCmd());
-    _TalonSubsystem.runTalonC(Robot.getOi().getTalonCCmd());
+    _shooter.runShooter(_shooter.getShouldRunShooter());
+    _shooter.runShooter(_shooter.getShouldRunFeeder());
   }
 
 

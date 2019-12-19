@@ -4,8 +4,11 @@ import com.swervedrivespecialties.exampleswerve.autonomous.Trajectories;
 import com.swervedrivespecialties.exampleswerve.commands.FollowTrajectory;
 import com.swervedrivespecialties.exampleswerve.commands.RotateToAngleTimed;
 import com.swervedrivespecialties.exampleswerve.commands.RotateToLLTargetTimed;
+import com.swervedrivespecialties.exampleswerve.commands.RunFeeder;
 import com.swervedrivespecialties.exampleswerve.commands.ToggleFieldOriented;
 import com.swervedrivespecialties.exampleswerve.commands.ToggleMinSpeed;
+import com.swervedrivespecialties.exampleswerve.commands.TogglePunches;
+import com.swervedrivespecialties.exampleswerve.commands.ToggleRunShooter;
 import com.swervedrivespecialties.exampleswerve.commands.ZeroGyro;
 import com.swervedrivespecialties.exampleswerve.util.BeakXboxController;
 
@@ -26,6 +29,10 @@ public class OI {
         primaryJoystick.x.whenPressed(new RotateToLLTargetTimed(1.5));
         primaryJoystick.start.whenPressed(new ToggleFieldOriented());
         primaryJoystick.lb.whenPressed(new FollowTrajectory(Trajectories.testTrajectorySupplier));
+        
+        secondaryJoystick.a.whenPressed(new ToggleRunShooter());
+        secondaryJoystick.b.whenPressed(new RunFeeder());
+        secondaryJoystick.x.whenPressed(new TogglePunches());
 
         primaryJoystick.dPad.up.whenPressed(new RotateToAngleTimed(0, 1.5));
 		primaryJoystick.dPad.upLeft.whenPressed(new RotateToAngleTimed(45, 1.5));
@@ -59,17 +66,5 @@ public class OI {
 
     public double getSnapTurnCmd(){
         return primaryJoystick.getPOV();
-    }
-
-    public boolean getTalonACmd(){
-        return secondaryJoystick.getRawButton(1);
-    }
-
-    public boolean getTalonBCmd(){
-        return secondaryJoystick.getRawButton(2);
-    }
-
-    public boolean getTalonCCmd(){
-        return secondaryJoystick.getRawButton(3);
     }
 }
