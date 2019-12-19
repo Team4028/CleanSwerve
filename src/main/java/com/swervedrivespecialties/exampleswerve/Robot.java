@@ -1,11 +1,15 @@
 package com.swervedrivespecialties.exampleswerve;
 
 import com.swervedrivespecialties.exampleswerve.autonomous.Trajectories;
-import com.swervedrivespecialties.exampleswerve.commands.RunTalonSubsystem;
+import com.swervedrivespecialties.exampleswerve.commands.RunShooter;
 import com.swervedrivespecialties.exampleswerve.subsystems.DrivetrainSubsystem;
+import com.swervedrivespecialties.exampleswerve.subsystems.Shooter;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.frcteam2910.common.robot.subsystems.SubsystemManager;
 
 public class Robot extends TimedRobot {
@@ -28,8 +32,8 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
         super.teleopInit();
-        Command runTalonSubsystem = new RunTalonSubsystem();
-        runTalonSubsystem.start();
+        Command runShooter = new RunShooter();
+        runShooter.start();
         DrivetrainSubsystem.getInstance().resetMinSpeed();
     }
 
@@ -37,6 +41,7 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         super.teleopPeriodic();
         System.out.println(DrivetrainSubsystem.getInstance().getMinSpeed());
+        SmartDashboard.putBoolean("Limit Switch", Shooter.getInstance().getSwitch());
     }
 
     @Override

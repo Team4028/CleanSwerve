@@ -6,6 +6,7 @@ import com.swervedrivespecialties.exampleswerve.RobotMap;
 
 import org.frcteam2910.common.robot.subsystems.Subsystem;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
@@ -15,12 +16,14 @@ public class Shooter extends Subsystem{
 
     double kShooterADefaultVBus = .6;
     double kShooterBDefaultVBus = .6;
-    double kFeederDefaultVBus = .6;
+    double kFeederDefaultVBus = .3;
 
     boolean shouldRunShooter = false;
     boolean shouldRunFeeder = false;
 
     private static Shooter _instance = new Shooter();
+
+    DigitalInput infeedLimitSwitch = new DigitalInput(0);
 
     public static Shooter getInstance(){
         return _instance;
@@ -29,8 +32,9 @@ public class Shooter extends Subsystem{
     TalonSRX _shooterTalonA = new TalonSRX(RobotMap.SHOOTER_TALON_A);
     TalonSRX _shooterTalonB = new TalonSRX(RobotMap.SHOOTER_TALON_B);
     TalonSRX _feederTalon = new TalonSRX(RobotMap.FEEDER_TALON);
+    TalonSRX _infeedTalon = new TalonSRX(RobotMap.INFEED_TALON);
 
-    DoubleSolenoid _solenoid = new DoubleSolenoid(1, 2);
+    // DoubleSolenoid _puncher = new DoubleSolenoid(1, 2);
 
     public void runShooter(boolean shouldRun){
         if (shouldRun){
@@ -47,6 +51,14 @@ public class Shooter extends Subsystem{
             _feederTalon.set(ControlMode.PercentOutput, kFeederDefaultVBus);
         } else {
             _feederTalon.set(ControlMode.PercentOutput, 0);
+        }
+    }
+
+    public void runInfeed(double vbus){
+        if (infeedLimitSwitch.get()){
+            _infeedTalon.set(ControlMode.PercentOutput, Math.min(0, vbus));
+        } else {
+            _infeedTalon.set(ControlMode.PercentOutput, vbus);
         }
     }
 
@@ -90,12 +102,16 @@ public class Shooter extends Subsystem{
     }
 
     public void toggleSolenoid(){
-        if (_solenoid.get() == Value.kForward){
-            _solenoid.set(Value.kReverse);
-        } else if (_solenoid.get() == Value.kReverse){
-            _solenoid.set(Value.kForward);
-        } else{
-            _solenoid.set(Value.kReverse);
-        }
+        // if (_solenoid.get() == Value.kForward){
+        //     _solenoid.set(Value.kReverse);
+        // } else if (_solenoid.get() == Value.kReverse){
+        //     _solenoid.set(Value.kForward);
+        // } else{
+        //     _solenoid.set(Value.kReverse);
+        // }
+    }
+
+    public boolean getSwitch(){
+        return infeedLimitSwitch.get();
     }
 }

@@ -67,4 +67,9 @@ public class OI {
     public double getSnapTurnCmd(){
         return primaryJoystick.getPOV();
     }
+
+    public double getInfeedCmd(){
+        double raw =  secondaryJoystick.getRawAxis(3) - secondaryJoystick.getRawAxis(2);
+        return raw >= 0 ? raw * .5 : raw * .8;
+    }
 }

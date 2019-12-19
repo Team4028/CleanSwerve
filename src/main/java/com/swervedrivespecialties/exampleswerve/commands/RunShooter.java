@@ -7,6 +7,7 @@
 
 package com.swervedrivespecialties.exampleswerve.commands;
 
+import com.swervedrivespecialties.exampleswerve.Robot;
 import com.swervedrivespecialties.exampleswerve.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -25,14 +26,16 @@ public class RunShooter extends Command {
   @Override
   protected void initialize() {
     _shooter.runShooter(_shooter.getShouldRunShooter());
-    _shooter.runShooter(_shooter.getShouldRunFeeder());
+    _shooter.runFeeder(_shooter.getShouldRunFeeder());
+    _shooter.runInfeed(Robot.getOi().getInfeedCmd());
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     _shooter.runShooter(_shooter.getShouldRunShooter());
-    _shooter.runShooter(_shooter.getShouldRunFeeder());
+    _shooter.runFeeder(_shooter.getShouldRunFeeder());
+    _shooter.runInfeed(Robot.getOi().getInfeedCmd());
   }
 
 
