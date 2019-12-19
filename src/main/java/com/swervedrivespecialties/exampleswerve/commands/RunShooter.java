@@ -28,6 +28,8 @@ public class RunShooter extends Command {
     _shooter.runShooter(_shooter.getShouldRunShooter());
     _shooter.runFeeder(_shooter.getShouldRunFeeder());
     _shooter.runInfeed(Robot.getOi().getInfeedCmd());
+    _shooter.resetPuncher();
+    _shooter.resetSucc();
   }
 
   // Called repeatedly when this Command is scheduled to run

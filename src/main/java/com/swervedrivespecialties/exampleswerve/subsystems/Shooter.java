@@ -34,7 +34,10 @@ public class Shooter extends Subsystem{
     TalonSRX _feederTalon = new TalonSRX(RobotMap.FEEDER_TALON);
     TalonSRX _infeedTalon = new TalonSRX(RobotMap.INFEED_TALON);
 
-    // DoubleSolenoid _puncher = new DoubleSolenoid(1, 2);
+    DoubleSolenoid _puncher = new DoubleSolenoid(0, 1);
+    DoubleSolenoid _succ = new DoubleSolenoid(2, 3);
+    Value kPuncherDefaultValue = Value.kReverse;
+    Value kSuccDefaultValue = Value.kForward;
 
     public void runShooter(boolean shouldRun){
         if (shouldRun){
@@ -101,14 +104,32 @@ public class Shooter extends Subsystem{
         shouldRunFeeder = shouldRun;
     }
 
-    public void toggleSolenoid(){
-        // if (_solenoid.get() == Value.kForward){
-        //     _solenoid.set(Value.kReverse);
-        // } else if (_solenoid.get() == Value.kReverse){
-        //     _solenoid.set(Value.kForward);
-        // } else{
-        //     _solenoid.set(Value.kReverse);
-        // }
+    public void togglePuncher(){
+        if (_puncher.get() == Value.kForward){
+            _puncher.set(Value.kReverse);
+        } else if (_puncher.get() == Value.kReverse){
+            _puncher.set(Value.kForward);
+        } else{
+            _puncher.set(kPuncherDefaultValue);
+        }
+    }
+
+    public void resetPuncher(){
+        _puncher.set(kPuncherDefaultValue);
+    }
+
+    public void toggleSucc(){
+        if (_succ.get() == Value.kForward){
+            _succ.set(Value.kReverse);
+        } else if (_puncher.get() == Value.kReverse){
+            _succ.set(Value.kForward);
+        } else{
+            _succ.set(kSuccDefaultValue);
+        }
+    }
+
+    public void resetSucc(){
+        _succ.set(kSuccDefaultValue);
     }
 
     public boolean getSwitch(){

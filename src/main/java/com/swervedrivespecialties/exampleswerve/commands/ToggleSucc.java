@@ -11,8 +11,8 @@ import com.swervedrivespecialties.exampleswerve.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class TogglePunches extends Command {
-  public TogglePunches() {
+public class ToggleSucc extends Command {
+  public ToggleSucc() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -20,7 +20,7 @@ public class TogglePunches extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Shooter.getInstance().togglePuncher();
+    Shooter.getInstance().toggleSucc();
   }
 
   // Called repeatedly when this Command is scheduled to run

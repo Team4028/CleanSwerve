@@ -9,6 +9,7 @@ import com.swervedrivespecialties.exampleswerve.commands.ToggleFieldOriented;
 import com.swervedrivespecialties.exampleswerve.commands.ToggleMinSpeed;
 import com.swervedrivespecialties.exampleswerve.commands.TogglePunches;
 import com.swervedrivespecialties.exampleswerve.commands.ToggleRunShooter;
+import com.swervedrivespecialties.exampleswerve.commands.ToggleSucc;
 import com.swervedrivespecialties.exampleswerve.commands.ZeroGyro;
 import com.swervedrivespecialties.exampleswerve.util.BeakXboxController;
 
@@ -33,6 +34,7 @@ public class OI {
         secondaryJoystick.a.whenPressed(new ToggleRunShooter());
         secondaryJoystick.b.whenPressed(new RunFeeder());
         secondaryJoystick.x.whenPressed(new TogglePunches());
+        secondaryJoystick.y.whenPressed(new ToggleSucc());
 
         primaryJoystick.dPad.up.whenPressed(new RotateToAngleTimed(0, 1.5));
 		primaryJoystick.dPad.upLeft.whenPressed(new RotateToAngleTimed(45, 1.5));
