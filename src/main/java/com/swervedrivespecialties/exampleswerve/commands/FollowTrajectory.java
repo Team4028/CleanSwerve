@@ -24,6 +24,7 @@ import org.frcteam2910.common.util.HolonomicFeedforward;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class FollowTrajectory extends Command {
   DrivetrainSubsystem _drive = DrivetrainSubsystem.getInstance();
@@ -32,12 +33,12 @@ public class FollowTrajectory extends Command {
 
   ///////////// PATH FOLLOWING CONSTANTS //////////////////
   private static final double kMaxVelo = 12 * 12; //This is the physical max velocity of the machine, not of any path
-  private static final double kInterceptVoltage = .03; //the physical minimum voltage to make the robot move forward
+  private static final double kInterceptVoltage = .018809; //the physical minimum voltage to make the robot move forward
   private static final double kPathFollowingAccelFeedForward = 0;
-  private static final double kPathFollowingTranslationP = .05;
+  private static final double kPathFollowingTranslationP = .06;
   private static final double kPathFollowingTranslationI = 0;
   private static final double kPathFollowingTranslationD = 0;
-  private static final double kPathFollowingRotationP = .0085;
+  private static final double kPathFollowingRotationP = .45;
   private static final double kPathFollowingRotationI = 0;
   private static final double kPathFollowingRotationD = .00025;
   ////////////////////////////////////////////////////////////
@@ -85,6 +86,12 @@ public class FollowTrajectory extends Command {
     Optional<HolonomicDriveSignal> driveSignal = calculate();
     if (driveSignal.isPresent()){
       holonomicDrive(inertiaGain.apply(driveSignal.get()));
+      double fwdCmd = driveSignal.get().getTranslation().x;
+      double stfCmd = driveSignal.get().getTranslation().y;
+      double rotCmd = driveSignal.get().getRotation();
+      SmartDashboard.putNumber("fwd Cmd Path Following", fwdCmd);
+      SmartDashboard.putNumber("stf Cmd Path Following", stfCmd);
+      SmartDashboard.putNumber("rot Cmd Path Following", rotCmd);
     } else {
       _drive.holonomicDrive(Vector2.ZERO, 0);
     }

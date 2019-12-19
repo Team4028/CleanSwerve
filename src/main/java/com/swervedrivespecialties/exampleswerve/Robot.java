@@ -1,5 +1,7 @@
 package com.swervedrivespecialties.exampleswerve;
 
+import com.swervedrivespecialties.exampleswerve.commands.LineDrive;
+import com.swervedrivespecialties.exampleswerve.commands.QuickMath;
 import com.swervedrivespecialties.exampleswerve.autonomous.Trajectories;
 import com.swervedrivespecialties.exampleswerve.commands.RunShooter;
 import com.swervedrivespecialties.exampleswerve.subsystems.DrivetrainSubsystem;
@@ -35,6 +37,13 @@ public class Robot extends TimedRobot {
         Command runShooter = new RunShooter();
         runShooter.start();
         DrivetrainSubsystem.getInstance().resetMinSpeed();
+    }
+
+    @Override
+    public void autonomousInit() {
+        super.autonomousInit();
+        Command command = new QuickMath();
+        command.start();
     }
 
     @Override

@@ -18,10 +18,10 @@ public class DrivetrainSubsystem extends SwerveDrivetrain {
     private static final double TRACKWIDTH = 21.5;
     private static final double WHEELBASE = 23.5;
 
-    private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(357.16);
-    private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(359.11);
-    private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(238.53);
-    private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(140.59);
+    private static final double FRONT_LEFT_ANGLE_OFFSET = -Math.toRadians(357.07);//357.16);
+    private static final double FRONT_RIGHT_ANGLE_OFFSET = -Math.toRadians(359.11);//359.11);
+    private static final double BACK_LEFT_ANGLE_OFFSET = -Math.toRadians(239.379);//238.53);
+    private static final double BACK_RIGHT_ANGLE_OFFSET = -Math.toRadians(143.707);//140.59);
 
     private static final Object INSTANCE_LOCK = new Object();
     private static DrivetrainSubsystem instance;
