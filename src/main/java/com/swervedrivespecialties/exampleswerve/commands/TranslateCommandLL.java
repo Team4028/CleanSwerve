@@ -26,6 +26,8 @@ public class TranslateCommandLL extends Command {
 
   private NetworkTable nt = NetworkTableInstance.getDefault().getTable("limelight");
   private NetworkTableEntry camtran = nt.getEntry("camtran");
+  private NetworkTableEntry ts = nt.getEntry("ts");
+  private NetworkTableEntry ta = nt.getEntry("ta");
   
   private double fTrans = .05;
   private double pTrans = 0.017;
@@ -41,6 +43,8 @@ public class TranslateCommandLL extends Command {
   private int count = 0;
   private double _kRotEpsilon = 1;
   private double _kTranEpsilon = 1;
+  private double _distance;
+  private double _llSkew;
 
 
   private double _currentTime;
@@ -71,11 +75,18 @@ public class TranslateCommandLL extends Command {
     _localTime = Timer.getFPGATimestamp();
     _deltaTime = _localTime - _currentTime;
     _currentTime = _localTime;
+    _distance = 190.42 * Math.pow(ta.getDouble(0), -0.471);
     double gyroYaw = _driveTrainSubsystem.getGyroscope().getAngle().toDegrees();
-    double llYaw = camtran.getDoubleArray(defaultValArray)[4];
+    //double llYaw = camtran.getDoubleArray(defaultValArray)[4];
+    _llSkew = 4 * Math.min(90 + ts.getDouble(0), Math.abs(ts.getDouble(0)));
+    if (Math.abs(ts.getDouble(0)) > 45){
+      _llSkew *= -1;
+    }
     _llXOffset = nt.getEntry("tx").getDouble(0);
-    llX = camtran.getDoubleArray(defaultValArray)[0];
-    double alpha = gyroYaw - llYaw;// + llXSign;
+    //llX = camtran.getDoubleArray(defaultValArray)[0];
+    llX = _distance * Math.cos(_llXOffset + _llSkew);
+    //double alpha = gyroYaw - llYaw;// + llXSign;
+    double alpha = gyroYaw - ;
     if(llX != 0 || count == 4){
       targetDist = llX;
       count = 0;
@@ -104,6 +115,10 @@ public class TranslateCommandLL extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+  }
+
+  public static double getSkew(){
+    return NetworkTableInstance.getDefault().getTable("limelight").getEntry("ts").getDouble(0);
   }
 
 }
