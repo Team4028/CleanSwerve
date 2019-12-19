@@ -30,11 +30,11 @@ public class OI {
         primaryJoystick.x.whenPressed(new RotateToLLTargetTimed(1.5));
         primaryJoystick.start.whenPressed(new ToggleFieldOriented());
         primaryJoystick.lb.whenPressed(new FollowTrajectory(Trajectories.testTrajectorySupplier));
+        primaryJoystick.rb.whenPressed(new ToggleSucc());
         
         secondaryJoystick.a.whenPressed(new ToggleRunShooter());
         secondaryJoystick.b.whenPressed(new RunFeeder());
         secondaryJoystick.x.whenPressed(new TogglePunches());
-        secondaryJoystick.y.whenPressed(new ToggleSucc());
 
         primaryJoystick.dPad.up.whenPressed(new RotateToAngleTimed(0, 1.5));
 		primaryJoystick.dPad.upLeft.whenPressed(new RotateToAngleTimed(45, 1.5));
