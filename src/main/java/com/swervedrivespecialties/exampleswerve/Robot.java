@@ -34,6 +34,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
         super.teleopInit();
+        Shooter.getInstance().setShouldRunShooter(false);
         Command runShooter = new RunShooter();
         runShooter.start();
         DrivetrainSubsystem.getInstance().resetMinSpeed();
@@ -42,8 +43,8 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         super.autonomousInit();
-        Command command = new QuickMath();
-        command.start();
+        // Command command = new QuickMath();
+        // command.start();
     }
 
     @Override

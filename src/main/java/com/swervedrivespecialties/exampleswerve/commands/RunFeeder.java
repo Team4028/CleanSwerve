@@ -18,7 +18,7 @@ public class RunFeeder extends Command {
   }
 
   Shooter _shooter = Shooter.getInstance();
-  int kMaxCycles = 1;
+  int kMaxCycles = 3;
   int numCycles;
 
   // Called just before this Command runs the first time

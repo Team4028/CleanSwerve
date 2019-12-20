@@ -42,17 +42,17 @@ public class OI {
         secondaryJoystick.a.whenPressed(new ToggleRunShooter());
         secondaryJoystick.b.whenPressed(new RunFeeder());
         secondaryJoystick.x.whenPressed(new TogglePunches());
-        secondaryJoystick.rb.whenPressed(new TranslateCommandLL());
-        secondaryJoystick.lb.whenPressed(new LineDrive(new Vector2(-48, 0), false, Rotation2.ZERO));
+        // secondaryJoystick.rb.whenPressed(new TranslateCommandLL());
+        // secondaryJoystick.lb.whenPressed(new LineDrive(new Vector2(-48, 0), false, Rotation2.ZERO));
 
-        primaryJoystick.dPad.up.whenPressed(new RotateToAngleTimed(0, 2.5));
-		primaryJoystick.dPad.upLeft.whenPressed(new RotateToAngleTimed(45, 2.5));
-		primaryJoystick.dPad.left.whenPressed(new RotateToAngleTimed(90, 2.5));
-		primaryJoystick.dPad.downLeft.whenPressed(new RotateToAngleTimed(135, 2.5));
-		primaryJoystick.dPad.down.whenPressed(new RotateToAngleTimed(180, 2.5));
-		primaryJoystick.dPad.downRight.whenPressed(new RotateToAngleTimed(225, 2.5));
-		primaryJoystick.dPad.right.whenPressed(new RotateToAngleTimed(270, 2.5));
-		primaryJoystick.dPad.upRight.whenPressed(new RotateToAngleTimed(315, 2.5));
+        primaryJoystick.dPad.up.whenPressed(new RotateToAngleTimed(0, 1.5));
+		primaryJoystick.dPad.upLeft.whenPressed(new RotateToAngleTimed(45, 1.5));
+		primaryJoystick.dPad.left.whenPressed(new RotateToAngleTimed(90, 1.5));
+		primaryJoystick.dPad.downLeft.whenPressed(new RotateToAngleTimed(135, 1.5));
+		primaryJoystick.dPad.down.whenPressed(new RotateToAngleTimed(180, 1.5));
+		primaryJoystick.dPad.downRight.whenPressed(new RotateToAngleTimed(225, 1.5));
+		primaryJoystick.dPad.right.whenPressed(new RotateToAngleTimed(270, 1.5));
+		primaryJoystick.dPad.upRight.whenPressed(new RotateToAngleTimed(315, 1.5));
     }
     
     public Joystick getPrimaryJoystick() {

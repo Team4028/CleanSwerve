@@ -14,9 +14,9 @@ public class Shooter extends Subsystem{
 
     private Shooter(){}
 
-    double kShooterADefaultVBus = .6;
-    double kShooterBDefaultVBus = .6;
-    double kFeederDefaultVBus = .3;
+    double kShooterADefaultVBus = .7;
+    double kShooterBDefaultVBus = .7;
+    double kFeederDefaultVBus = -.4;
 
     boolean shouldRunShooter = false;
     boolean shouldRunFeeder = false;
@@ -34,10 +34,10 @@ public class Shooter extends Subsystem{
     TalonSRX _feederTalon = new TalonSRX(RobotMap.FEEDER_TALON);
     TalonSRX _infeedTalon = new TalonSRX(RobotMap.INFEED_TALON);
 
-    DoubleSolenoid _puncher = new DoubleSolenoid(0, 1);
-    DoubleSolenoid _succ = new DoubleSolenoid(2, 3);
+    DoubleSolenoid _puncher = new DoubleSolenoid(2, 3);
+    DoubleSolenoid _succ = new DoubleSolenoid(0, 1);
     Value kPuncherDefaultValue = Value.kReverse;
-    Value kSuccDefaultValue = Value.kForward;
+    Value kSuccDefaultValue = Value.kReverse;
 
     public void runShooter(boolean shouldRun){
         if (shouldRun){
