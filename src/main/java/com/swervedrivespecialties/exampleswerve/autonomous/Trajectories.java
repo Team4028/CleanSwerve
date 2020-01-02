@@ -71,7 +71,111 @@ public class Trajectories {
     //////////////////////////////////////////////////////
 
 
+    //////////////// TEST AUTO TRAJECTORY ONE //////////////////////////////////
+    private static Trajectory testAutoTrajectoryOne;
+    private static final double testAutoTrajectoryOneMaxVelo = 8 * 12;
+    private static final ITrajectoryConstraint[] testAutoTrajectoryOneConstraints = {new MaxVelocityConstraint(testAutoTrajectoryOneMaxVelo), 
+                                                                                      new MaxAccelerationConstraint(kMaxAccel), 
+                                                                                      new CentripetalAccelerationConstraint(kMaxCentripedalAccel)};
+    private static final double testAutoTrajectoryOneEndVelo = 3 * 12;
+    private static final Rotation2 testAutoPathOneRotation = Rotation2.fromDegrees(90);
+    private static final Rotation2 testAutoPathOneStartRotation = Rotation2.ZERO;
+
+    private static void generateTestAutoTrajectoryOne(){
+        Path testAutoPathOne = new Path(testAutoPathOneStartRotation);
+        testAutoPathOne.addSegment(new PathLineSegment(Vector2.ZERO, new Vector2(24, 0)), testAutoPathOneRotation);
+        testAutoPathOne.addSegment(new PathArcSegment(new Vector2(24, 0), new Vector2(72, 48), new Vector2(24, 48)), testAutoPathOneRotation);
+        testAutoPathOne.subdivide(kSubdivideIterations);
+        testTrajectory = new Trajectory(0.0, testAutoTrajectoryOneEndVelo, testAutoPathOne, testAutoTrajectoryOneConstraints);
+    }
+
+    private static Trajectory getTestAutoTrajectoryOne(){
+        return testAutoTrajectoryOne;
+    }
+
+    public static Supplier<Trajectory> testAutoTrajectoryOneSupplier = () -> getTestAutoTrajectoryOne();
+    //////////////////////////////////////////////////////////////////////////
+
+    ///////////////// TEST AUTO TRAJECTORY TWO ///////////////////////////////
+    static double testAutoTrajectoryTwoSpeed = 8 * 12;
+    static Rotation2 testAutoTrajectoryTwoRotation = Rotation2.fromDegrees(111.1);
+    private static Trajectory testAutoTrajectoryTwo;
+    
+    public static void generateTestAutoTrajectoryTwo(){
+        testAutoTrajectoryTwo= generateLineTrajectory(new Vector2(50.9, -130.5), testAutoTrajectoryTwoSpeed, testAutoPathOneRotation, testAutoTrajectoryTwoRotation);
+    }
+
+    private static Trajectory getTestAutoTrajectoryTwo(){
+        return testAutoTrajectoryTwo;
+    }
+
+    public static Supplier<Trajectory> testAutoTrajectoryTwoSupplier = () -> getTestAutoTrajectoryTwo();
+    //////////////////////////////////////////////////////////////////////////
+
+    //////////////// TEST AUTO TRAJECTORY THREE //////////////////////////////////
+    private static Trajectory testAutoTrajectoryThree;
+    private static final double testAutoTrajectoryThreeMaxVelo = 8 * 12;
+    private static final ITrajectoryConstraint[] testAutoTrajectoryThreeConstraints = {new MaxVelocityConstraint(testAutoTrajectoryThreeMaxVelo), 
+                                                                                      new MaxAccelerationConstraint(kMaxAccel), 
+                                                                                      new CentripetalAccelerationConstraint(kMaxCentripedalAccel)};
+    private static final double testAutoTrajectoryThreeEndVelo = 3 * 12;
+    private static final Rotation2 testAutoPathThreeRotation = Rotation2.fromDegrees(270);
+    private static final Rotation2 testAutoPathThreeStartRotation = testAutoTrajectoryTwoRotation;
+
+    private static void generateTestAutoTrajectoryThree(){
+        Path testAutoPathThree = new Path(testAutoPathThreeStartRotation);
+        testAutoPathThree.addSegment(new PathArcSegment(Vector2.ZERO, new Vector2(-50.9, -60.9), new Vector2(0, -60.9)), testAutoPathThreeRotation);
+        testAutoPathThree.subdivide(kSubdivideIterations);
+        testTrajectory = new Trajectory(0.0, testAutoTrajectoryThreeEndVelo, testAutoPathThree, testAutoTrajectoryThreeConstraints);
+    }
+
+    private static Trajectory getTestAutoTrajectoryThree(){
+        return testAutoTrajectoryThree;
+    }
+
+    public static Supplier<Trajectory> testAutoTrajectoryThreeSupplier = () -> getTestAutoTrajectoryThree();
+    //////////////////////////////////////////////////////////////////////////
+
+    ///////////////// TEST AUTO TRAJECTORY FOUR ///////////////////////////////
+    static double testAutoTrajectoryFourSpeed = 8 * 12;
+    static Rotation2 testAutoTrajectoryFourRotation = Rotation2.fromDegrees(90);
+    private static Trajectory testAutoTrajectoryFour;
+    
+    public static void generateTestAutoTrajectoryFour(){
+        testAutoTrajectoryFour = generateLineTrajectory(new Vector2(0, 47.4), testAutoTrajectoryFourSpeed, testAutoPathThreeRotation, testAutoTrajectoryFourRotation);
+    }
+
+    private static Trajectory getTestAutoTrajectoryFour(){
+        return testAutoTrajectoryFour;
+    }
+
+    public static Supplier<Trajectory> testAutoTrajectoryFourSupplier = () -> getTestAutoTrajectoryFour();
+    //////////////////////////////////////////////////////////////////////////
+
+    ///////////////// TEST AUTO TRAJECTORY FIVE ///////////////////////////////
+    static double testAutoTrajectoryFiveSpeed = 8 * 12;
+    static Rotation2 testAutoTrajectoryFiveRotation = Rotation2.fromDegrees(90);
+    private static Trajectory testAutoTrajectoryFive;
+    
+    public static void generateTestAutoTrajectoryFive(){
+        testAutoTrajectoryFive = generateLineTrajectory(new Vector2(0, 144), testAutoTrajectoryFiveSpeed, testAutoTrajectoryFourRotation, testAutoTrajectoryFiveRotation);
+    }
+
+    private static Trajectory getTestAutoTrajectoryFive(){
+        return testAutoTrajectoryFive;
+    }
+
+    public static Supplier<Trajectory> testAutoTrajectoryFiveSupplier = () -> getTestAutoTrajectoryFive();
+    //////////////////////////////////////////////////////////////////////////
+
+
+
     public static void generateAllTrajectories(){
+        generateTestAutoTrajectoryOne();
+        generateTestAutoTrajectoryTwo();
+        generateTestAutoTrajectoryThree();
+        generateTestAutoTrajectoryFour();
+        generateTestAutoTrajectoryFive();
         generateTestTrajectory();
         generateExampleTrajectory();
     }
@@ -91,6 +195,17 @@ public class Trajectories {
 
     public static Trajectory generateLineTrajectory(Vector2 line, Rotation2 startRotation, Rotation2 endRotation){
         ITrajectoryConstraint[] lineTrajectoryConstraints = {new MaxVelocityConstraint(kDefaultMaxSpeed), 
+                                                             new MaxAccelerationConstraint(kMaxAccel), 
+                                                             new CentripetalAccelerationConstraint(kMaxCentripedalAccel)};
+        Path linePath = new Path(startRotation);
+        linePath.addSegment(new PathLineSegment(Vector2.ZERO, line), endRotation);
+        linePath.subdivide(kSubdivideIterations);
+        Trajectory resultTrajectory = new Trajectory(0.0, 0.0, linePath, lineTrajectoryConstraints);
+        return resultTrajectory;
+    }
+
+    public static Trajectory generateLineTrajectory(Vector2 line, double speed,  Rotation2 startRotation, Rotation2 endRotation){
+        ITrajectoryConstraint[] lineTrajectoryConstraints = {new MaxVelocityConstraint(speed), 
                                                              new MaxAccelerationConstraint(kMaxAccel), 
                                                              new CentripetalAccelerationConstraint(kMaxCentripedalAccel)};
         Path linePath = new Path(startRotation);

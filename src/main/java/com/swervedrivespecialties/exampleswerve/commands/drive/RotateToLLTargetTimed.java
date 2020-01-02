@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package com.swervedrivespecialties.exampleswerve.commands;
+package com.swervedrivespecialties.exampleswerve.commands.drive;
 
 import com.swervedrivespecialties.exampleswerve.subsystems.DrivetrainSubsystem;
 

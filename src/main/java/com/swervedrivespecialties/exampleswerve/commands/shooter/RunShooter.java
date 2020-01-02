@@ -5,33 +5,46 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package com.swervedrivespecialties.exampleswerve.commands;
+package com.swervedrivespecialties.exampleswerve.commands.shooter;
 
+import com.swervedrivespecialties.exampleswerve.Robot;
 import com.swervedrivespecialties.exampleswerve.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ToggleSucc extends Command {
-  public ToggleSucc() {
+public class RunShooter extends Command {
+
+  Shooter _shooter = Shooter.getInstance();
+
+  public RunShooter() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    requires(_shooter);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Shooter.getInstance().toggleSucc();
+    _shooter.runShooter(_shooter.getShouldRunShooter());
+    _shooter.runFeeder(_shooter.getShouldRunFeeder());
+    _shooter.runInfeed(Robot.getOi().getInfeedCmd());
+    _shooter.resetPuncher();
+    _shooter.resetSucc();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    _shooter.runShooter(_shooter.getShouldRunShooter());
+    _shooter.runFeeder(_shooter.getShouldRunFeeder());
+    _shooter.runInfeed(Robot.getOi().getInfeedCmd());
   }
+
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    return false;
   }
 
   // Called once after isFinished returns true

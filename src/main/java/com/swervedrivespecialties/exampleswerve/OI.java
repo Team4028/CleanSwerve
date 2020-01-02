@@ -1,20 +1,19 @@
 package com.swervedrivespecialties.exampleswerve;
 
-import com.swervedrivespecialties.exampleswerve.commands.LineDrive;
-import com.swervedrivespecialties.exampleswerve.commands.RobotOrientedLineDrive;
-import com.swervedrivespecialties.exampleswerve.commands.RotateToAngle;
+import com.swervedrivespecialties.exampleswerve.commands.auton.LineDrive;
 import com.swervedrivespecialties.exampleswerve.autonomous.Trajectories;
-import com.swervedrivespecialties.exampleswerve.commands.FollowTrajectory;
-import com.swervedrivespecialties.exampleswerve.commands.RotateToAngleTimed;
-import com.swervedrivespecialties.exampleswerve.commands.RotateToLLTargetTimed;
-import com.swervedrivespecialties.exampleswerve.commands.RunFeeder;
-import com.swervedrivespecialties.exampleswerve.commands.ToggleFieldOriented;
-import com.swervedrivespecialties.exampleswerve.commands.ToggleMinSpeed;
-import com.swervedrivespecialties.exampleswerve.commands.TogglePunches;
-import com.swervedrivespecialties.exampleswerve.commands.ToggleRunShooter;
-import com.swervedrivespecialties.exampleswerve.commands.ToggleSucc;
-import com.swervedrivespecialties.exampleswerve.commands.TranslateCommandLL;
-import com.swervedrivespecialties.exampleswerve.commands.ZeroGyro;
+import com.swervedrivespecialties.exampleswerve.commands.auton.FollowTrajectory;
+import com.swervedrivespecialties.exampleswerve.commands.drive.RotateToAngleTimed;
+import com.swervedrivespecialties.exampleswerve.commands.drive.RotateToLLTargetTimed;
+import com.swervedrivespecialties.exampleswerve.commands.shooter.RunFeeder;
+import com.swervedrivespecialties.exampleswerve.commands.drive.ToggleFieldOriented;
+import com.swervedrivespecialties.exampleswerve.commands.drive.ToggleMinSpeed;
+import com.swervedrivespecialties.exampleswerve.commands.shooter.TogglePunches;
+import com.swervedrivespecialties.exampleswerve.commands.shooter.ToggleRunShooter;
+import com.swervedrivespecialties.exampleswerve.commands.shooter.ToggleSucc;
+import com.swervedrivespecialties.exampleswerve.commands.auton.TranslateCommandLL;
+import com.swervedrivespecialties.exampleswerve.commands.auton.autons.testAuto;
+import com.swervedrivespecialties.exampleswerve.commands.drive.ZeroGyro;
 import com.swervedrivespecialties.exampleswerve.util.BeakXboxController;
 
 import org.frcteam2910.common.math.Rotation2;
@@ -36,7 +35,8 @@ public class OI {
         primaryJoystick.back.whenPressed(new ZeroGyro());
         primaryJoystick.x.whenPressed(new RotateToLLTargetTimed(1.5));
         primaryJoystick.start.whenPressed(new ToggleFieldOriented());
-        primaryJoystick.lb.whenPressed(new FollowTrajectory(Trajectories.testTrajectorySupplier));
+        //primaryJoystick.lb.whenPressed(new FollowTrajectory(Trajectories.testTrajectorySupplier));
+        primaryJoystick.lb.whenPressed(new testAuto());
         primaryJoystick.rb.whenPressed(new ToggleSucc());
         
         secondaryJoystick.a.whenPressed(new ToggleRunShooter());

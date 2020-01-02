@@ -14,12 +14,21 @@ public class Shooter extends Subsystem{
 
     private Shooter(){}
 
-    double kShooterADefaultVBus = .7;
-    double kShooterBDefaultVBus = .7;
+    double kShooterDefaultVBus = .7;
     double kFeederDefaultVBus = -.4;
+
+    double kShooterCurrentVBus = kShooterDefaultVBus;
+
+    double kInfeedHoldVBus = -.3;
+    double kOutfeedVBusDeadband = .05;
 
     boolean shouldRunShooter = false;
     boolean shouldRunFeeder = false;
+
+    boolean isAuto = false;
+    boolean isAutoInfeed = true;
+    double kAutoInfeedVBus = .5;
+    double kAutoOutfeedVBus = .8;
 
     private static Shooter _instance = new Shooter();
 
@@ -41,8 +50,8 @@ public class Shooter extends Subsystem{
 
     public void runShooter(boolean shouldRun){
         if (shouldRun){
-            _shooterTalonA.set(ControlMode.PercentOutput, kShooterADefaultVBus);
-            _shooterTalonB.set(ControlMode.PercentOutput, kShooterBDefaultVBus);
+            _shooterTalonA.set(ControlMode.PercentOutput, kShooterDefaultVBus);
+            _shooterTalonB.set(ControlMode.PercentOutput, kShooterDefaultVBus);
         } else {
             _shooterTalonA.set(ControlMode.PercentOutput, 0);
             _shooterTalonB.set(ControlMode.PercentOutput, 0);
@@ -58,10 +67,26 @@ public class Shooter extends Subsystem{
     }
 
     public void runInfeed(double vbus){
-        if (infeedLimitSwitch.get()){
-            _infeedTalon.set(ControlMode.PercentOutput, Math.min(0, vbus));
+        if (!isAuto){
+            if (infeedLimitSwitch.get()){
+                if (vbus > kOutfeedVBusDeadband){
+                    _infeedTalon.set(ControlMode.PercentOutput, vbus);
+                } else {
+                    _infeedTalon.set(ControlMode.PercentOutput, kInfeedHoldVBus);
+                }
+            } else {
+                _infeedTalon.set(ControlMode.PercentOutput, vbus);
+            }
         } else {
-            _infeedTalon.set(ControlMode.PercentOutput, vbus);
+            if (isAutoInfeed){
+                if (infeedLimitSwitch.get()){
+                    _infeedTalon.set(ControlMode.PercentOutput, kInfeedHoldVBus);
+                } else {
+                    _infeedTalon.set(ControlMode.PercentOutput, kAutoInfeedVBus);
+                }
+            } else {
+                _infeedTalon.set(ControlMode.PercentOutput, kAutoOutfeedVBus);
+            }
         }
     }
 
@@ -134,5 +159,22 @@ public class Shooter extends Subsystem{
 
     public boolean getSwitch(){
         return infeedLimitSwitch.get();
+    }
+
+    public void setShooterRunSpeed(double vbus){
+        kShooterCurrentVBus = vbus;
+    } 
+
+    public void resetShooterRunSpeed(){
+        kShooterCurrentVBus = kShooterDefaultVBus;
+    }
+
+    public void startAuto(boolean isInfeed){
+        isAuto = true;
+        isAutoInfeed = isInfeed;
+    }
+
+    public void endAuto(){
+        isAuto = false;
     }
 }

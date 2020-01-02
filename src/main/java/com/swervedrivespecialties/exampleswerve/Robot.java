@@ -1,9 +1,9 @@
 package com.swervedrivespecialties.exampleswerve;
 
-import com.swervedrivespecialties.exampleswerve.commands.LineDrive;
-import com.swervedrivespecialties.exampleswerve.commands.QuickMath;
+import com.swervedrivespecialties.exampleswerve.commands.auton.LineDrive;
+import com.swervedrivespecialties.exampleswerve.commands.auton.QuickMath;
 import com.swervedrivespecialties.exampleswerve.autonomous.Trajectories;
-import com.swervedrivespecialties.exampleswerve.commands.RunShooter;
+import com.swervedrivespecialties.exampleswerve.commands.shooter.RunShooter;
 import com.swervedrivespecialties.exampleswerve.subsystems.DrivetrainSubsystem;
 import com.swervedrivespecialties.exampleswerve.subsystems.Shooter;
 

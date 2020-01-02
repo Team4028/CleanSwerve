@@ -5,23 +5,22 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package com.swervedrivespecialties.exampleswerve.commands;
+package com.swervedrivespecialties.exampleswerve.commands.drive;
 
-import com.swervedrivespecialties.exampleswerve.subsystems.Shooter;
+import com.swervedrivespecialties.exampleswerve.subsystems.DrivetrainSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ToggleRunShooter extends Command {
-  public ToggleRunShooter() {
+public class ToggleFieldOriented extends Command {
+  public ToggleFieldOriented() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
 
-  Shooter _shooter = Shooter.getInstance();
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    _shooter.setShouldRunShooter(!_shooter.getShouldRunShooter());
+    DrivetrainSubsystem.getInstance().toggleFieldOriented();
   }
 
   // Called repeatedly when this Command is scheduled to run

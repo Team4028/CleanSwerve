@@ -5,14 +5,14 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package com.swervedrivespecialties.exampleswerve.commands;
+package com.swervedrivespecialties.exampleswerve.commands.shooter;
 
-import com.swervedrivespecialties.exampleswerve.subsystems.DrivetrainSubsystem;
+import com.swervedrivespecialties.exampleswerve.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ToggleMinSpeed extends Command {
-  public ToggleMinSpeed() {
+public class ToggleSucc extends Command {
+  public ToggleSucc() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -20,7 +20,7 @@ public class ToggleMinSpeed extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    DrivetrainSubsystem.getInstance().toggleMinSpeed();
+    Shooter.getInstance().toggleSucc();
   }
 
   // Called repeatedly when this Command is scheduled to run

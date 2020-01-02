@@ -19,4 +19,12 @@ public class util {
     public static boolean epsilonEquals(double dub, double epsilon){
         return epsilonEquals(dub, 0, epsilon);
     }
+
+    public static double deadband(double num, double db){
+        if (Math.abs(num) < db){
+            return 0;
+        } else {
+            return num;
+        }
+    }
 }

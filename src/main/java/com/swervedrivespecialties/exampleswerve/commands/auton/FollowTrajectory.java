@@ -5,11 +5,12 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package com.swervedrivespecialties.exampleswerve.commands;
+package com.swervedrivespecialties.exampleswerve.commands.auton;
 
 import java.util.Optional;
 import java.util.function.Supplier;
 
+import com.swervedrivespecialties.exampleswerve.commands.drive.RotateToAngleTimed;
 import com.swervedrivespecialties.exampleswerve.subsystems.DrivetrainSubsystem;
 import com.swervedrivespecialties.exampleswerve.util.InertiaGain;
 

@@ -1,4 +1,4 @@
-package com.swervedrivespecialties.exampleswerve.commands;
+package com.swervedrivespecialties.exampleswerve.commands.drive;
 
 import com.swervedrivespecialties.exampleswerve.subsystems.DrivetrainSubsystem;
 import org.frcteam2910.common.drivers.Gyroscope;

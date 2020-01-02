@@ -5,22 +5,25 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package com.swervedrivespecialties.exampleswerve.commands;
+package com.swervedrivespecialties.exampleswerve.commands.shooter;
 
 import com.swervedrivespecialties.exampleswerve.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class TogglePunches extends Command {
-  public TogglePunches() {
+public class StopShooter extends Command {
+  public StopShooter() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
 
+  Shooter _shooter = Shooter.getInstance();
+
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Shooter.getInstance().togglePuncher();
+    _shooter.resetShooterRunSpeed();
+    _shooter.setShouldRunShooter(false);
   }
 
   // Called repeatedly when this Command is scheduled to run
