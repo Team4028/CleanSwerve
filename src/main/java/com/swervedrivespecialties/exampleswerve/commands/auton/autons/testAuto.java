@@ -15,6 +15,8 @@ import com.swervedrivespecialties.exampleswerve.commands.drive.VictorySpins;
 import com.swervedrivespecialties.exampleswerve.commands.shooter.AutoInfeed;
 import com.swervedrivespecialties.exampleswerve.commands.shooter.ShootBalls;
 import com.swervedrivespecialties.exampleswerve.commands.shooter.ShootFrisbees;
+import com.swervedrivespecialties.exampleswerve.commands.shooter.StartShooterAtSpeed;
+import com.swervedrivespecialties.exampleswerve.commands.shooter.StopShooter;
 import com.swervedrivespecialties.exampleswerve.commands.shooter.ToggleSucc;
 
 import org.frcteam2910.common.math.Rotation2;
@@ -30,15 +32,19 @@ public class testAuto extends CommandGroup {
     addSequential(new FollowTrajectory(Trajectories.testAutoTrajectoryOneSupplier));
     addSequential(new AutoInfeed(false));
     addSequential(new FollowTrajectory(Trajectories.testAutoTrajectoryTwoSupplier));
+    addParallel(new StartShooterAtSpeed(.7));
     addSequential(new RotateToLLTarget());
     addSequential(new ShootBalls(4));
+    addSequential(new StopShooter());
     addParallel(new ToggleSucc());
     addParallel(new AutoInfeed(true));
     addSequential(new FollowTrajectory(Trajectories.testAutoTrajectoryThreeSupplier));
     addSequential(new ToggleSucc());
     addSequential(new FollowTrajectory(Trajectories.testAutoTrajectoryFourSupplier));
+    addParallel(new StartShooterAtSpeed(.7));
     addSequential(new RotateToLLTarget());
     addSequential(new ShootFrisbees(4));
+    addSequential(new StopShooter());
     addSequential(new FollowTrajectory(Trajectories.testAutoTrajectoryFiveSupplier));
     addSequential(new AutoInfeed(false));
     addSequential(new LineDrive(new Vector2(0, -48), true, Rotation2.fromDegrees(270)));
