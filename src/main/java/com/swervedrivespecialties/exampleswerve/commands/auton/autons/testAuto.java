@@ -32,7 +32,7 @@ public class testAuto extends CommandGroup {
     addSequential(new FollowTrajectory(Trajectories.testAutoTrajectoryOneSupplier));
     addSequential(new AutoInfeed(false));
     addSequential(new FollowTrajectory(Trajectories.testAutoTrajectoryTwoSupplier));
-    addParallel(new StartShooterAtSpeed(.7));
+    addParallel(new StartShooterAtSpeed(.55));
     addSequential(new RotateToLLTarget());
     addSequential(new ShootBalls(4));
     addSequential(new StopShooter());
@@ -41,7 +41,7 @@ public class testAuto extends CommandGroup {
     addSequential(new FollowTrajectory(Trajectories.testAutoTrajectoryThreeSupplier));
     addSequential(new ToggleSucc());
     addSequential(new FollowTrajectory(Trajectories.testAutoTrajectoryFourSupplier));
-    addParallel(new StartShooterAtSpeed(.7));
+    addParallel(new StartShooterAtSpeed(.55));
     addSequential(new RotateToLLTarget());
     addSequential(new ShootFrisbees(4));
     addSequential(new StopShooter());

@@ -86,7 +86,7 @@ public class Trajectories {
         testAutoPathOne.addSegment(new PathLineSegment(Vector2.ZERO, new Vector2(24, 0)), testAutoPathOneRotation);
         testAutoPathOne.addSegment(new PathArcSegment(new Vector2(24, 0), new Vector2(72, 48), new Vector2(24, 48)), testAutoPathOneRotation);
         testAutoPathOne.subdivide(kSubdivideIterations);
-        testTrajectory = new Trajectory(0.0, testAutoTrajectoryOneEndVelo, testAutoPathOne, testAutoTrajectoryOneConstraints);
+        testAutoTrajectoryOne = new Trajectory(0.0, testAutoTrajectoryOneEndVelo, testAutoPathOne, testAutoTrajectoryOneConstraints);
     }
 
     private static Trajectory getTestAutoTrajectoryOne(){
@@ -102,7 +102,7 @@ public class Trajectories {
     private static Trajectory testAutoTrajectoryTwo;
     
     public static void generateTestAutoTrajectoryTwo(){
-        testAutoTrajectoryTwo= generateLineTrajectory(new Vector2(50.9, -130.5), testAutoTrajectoryTwoSpeed, testAutoPathOneRotation, testAutoTrajectoryTwoRotation);
+        testAutoTrajectoryTwo = generateLineTrajectory(new Vector2(50.9, -130.5), testAutoTrajectoryTwoSpeed, testAutoPathOneRotation, testAutoTrajectoryTwoRotation);
     }
 
     private static Trajectory getTestAutoTrajectoryTwo(){
