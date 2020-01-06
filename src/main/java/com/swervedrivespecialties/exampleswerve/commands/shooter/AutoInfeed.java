@@ -15,8 +15,8 @@ import edu.wpi.first.wpilibj.command.Command;
 public class AutoInfeed extends Command {
 
   boolean isInfeed;
-  double kAutoInfeedTimeout = 1.2;
-  double kAutoOutfeedTimeout = .3;
+  double kAutoInfeedTimeout = 1.8;
+  double kAutoOutfeedTimeout = .7;
   double startTime;
   double kTimeout;
 
@@ -27,6 +27,7 @@ public class AutoInfeed extends Command {
     // eg. requires(chassis);
     isInfeed = shouldInfeed;
     kTimeout = shouldInfeed ? kAutoInfeedTimeout : kAutoOutfeedTimeout;
+    setInterruptible(false);
   }
 
   // Called just before this Command runs the first time

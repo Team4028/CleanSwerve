@@ -14,12 +14,12 @@ public class Shooter extends Subsystem{
 
     private Shooter(){}
 
-    double kShooterDefaultVBus = .7;
+    double kShooterDefaultVBus = .6; //.7
     double kFeederDefaultVBus = -.4;
 
     double kShooterCurrentVBus = kShooterDefaultVBus;
 
-    double kInfeedHoldVBus = -.3;
+    double kInfeedHoldVBus = .25;
     double kOutfeedVBusDeadband = .05;
 
     boolean shouldRunShooter = false;
@@ -28,7 +28,7 @@ public class Shooter extends Subsystem{
     boolean isAuto = false;
     boolean isAutoInfeed = true;
     double kAutoInfeedVBus = .5;
-    double kAutoOutfeedVBus = .8;
+    double kAutoOutfeedVBus = -.8;
 
     private static Shooter _instance = new Shooter();
 

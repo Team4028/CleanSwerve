@@ -1,12 +1,19 @@
 package com.swervedrivespecialties.exampleswerve.subsystems;
 
+import java.util.function.Supplier;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.swervedrivespecialties.exampleswerve.RobotMap;
+import com.swervedrivespecialties.exampleswerve.commands.auton.saaar;
 import com.swervedrivespecialties.exampleswerve.commands.drive.DriveCommand;
+import com.swervedrivespecialties.exampleswerve.util.VisionData;
+
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.command.Command;
+
 import org.frcteam2910.common.drivers.Gyroscope;
 import org.frcteam2910.common.drivers.SwerveModule;
 import org.frcteam2910.common.math.Vector2;
@@ -33,6 +40,11 @@ public class DrivetrainSubsystem extends SwerveDrivetrain {
     private boolean _isFieldOriented = true; //When the robot starts up, the drivetrain is field oriented.
 
     private double curMinSpeed = .25;
+
+    private boolean isRunningSaaar = false;
+    private double kRangingDistance = 6 * 12;
+    private Supplier<VisionData> visionDataSupplier;
+
 
     public DrivetrainSubsystem() {
         gyroscope.calibrate();
@@ -139,5 +151,23 @@ public class DrivetrainSubsystem extends SwerveDrivetrain {
 
     public double getMinSpeed(){
         return curMinSpeed;
+    }
+
+    public boolean getIsRunningSaaar(){
+        return isRunningSaaar;
+    }
+
+    public void setIsRunningSaaar(boolean isRunning){
+        isRunningSaaar = isRunning;
+    }
+
+    public void toggleAimAndRange(){
+        if (!isRunningSaaar){
+            isRunningSaaar = true;
+            Command cmd = new saaar(kRangingDistance, visionDataSupplier);
+            cmd.start();
+        } else {
+            isRunningSaaar = false;
+        }
     }
 }
