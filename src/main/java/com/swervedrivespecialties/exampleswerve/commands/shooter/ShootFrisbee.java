@@ -18,6 +18,7 @@ public class ShootFrisbee extends CommandGroup {
    double kFrisbeeShootTime = .3;
 
   public ShootFrisbee() {
+    setInterruptible(false);
     addSequential(new TogglePunches());
     addSequential(new WaitCommand(kFrisbeeShootTime));
     addSequential(new TogglePunches());

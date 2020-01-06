@@ -5,42 +5,33 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package com.swervedrivespecialties.exampleswerve.commands.drive;
+package com.swervedrivespecialties.exampleswerve.commands.auton;
 
 import com.swervedrivespecialties.exampleswerve.subsystems.DrivetrainSubsystem;
 
-import org.frcteam2910.common.math.Vector2;
-
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class VictorySpin extends Command {
-  DrivetrainSubsystem drive = DrivetrainSubsystem.getInstance();
-  double startTime;
-  double kTimeout = 4; //config to approximately be 1 spin
-
-  public VictorySpin() {
+public class toggleAimAndRange extends Command {
+  public toggleAimAndRange() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(drive);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    startTime = Timer.getFPGATimestamp();
+    DrivetrainSubsystem.getInstance().toggleAimAndRange();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    drive.holonomicDrive(Vector2.ZERO, .85);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Timer.getFPGATimestamp() - startTime > kTimeout;
+    return true;
   }
 
   // Called once after isFinished returns true

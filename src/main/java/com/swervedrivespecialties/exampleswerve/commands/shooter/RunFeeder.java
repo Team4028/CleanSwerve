@@ -15,6 +15,7 @@ public class RunFeeder extends Command {
   public RunFeeder() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    setInterruptible(false);
   }
 
   Shooter _shooter = Shooter.getInstance();

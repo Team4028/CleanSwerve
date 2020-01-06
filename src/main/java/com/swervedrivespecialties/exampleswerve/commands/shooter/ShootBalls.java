@@ -15,6 +15,8 @@ public class ShootBalls extends CommandGroup {
 
 
   public ShootBalls(int numShots) {
+    setInterruptible(false);
+    System.out.println("YAAAABBBADDDAAABBAADOOOOOOO");
     for (int ind = 0; ind < numShots - 1; ind++){
       addSequential(new RunFeeder());
       addSequential(new WaitCommand(kBetweenBallWaitTime));

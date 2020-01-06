@@ -22,6 +22,7 @@ public class LineDrive extends CommandGroup {
    * Add your docs here.
    */
   public LineDrive(Vector2 vec, boolean isFieldOriented, Rotation2 rot, double timeOut){
+    setInterruptible(false);
     if (isFieldOriented){
       addSequential(new FieldOrientedLineDrive(vec, rot), timeOut);
     }else{
