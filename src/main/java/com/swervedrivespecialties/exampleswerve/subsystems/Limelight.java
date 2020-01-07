@@ -7,6 +7,10 @@
 
 package com.swervedrivespecialties.exampleswerve.subsystems;
 
+import java.util.function.Supplier;
+
+import com.swervedrivespecialties.exampleswerve.util.VisionData;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -19,9 +23,18 @@ public class Limelight extends Subsystem {
   private NetworkTable nt = NetworkTableInstance.getDefault().getTable("limelight");
   private NetworkTableEntry tx = nt.getEntry("tx");
   private NetworkTableEntry ta = nt.getEntry("ta");
+  private NetworkTableEntry tv = nt.getEntry("tv");
+  private NetworkTableEntry pipeline = nt.getEntry("pipeline");
   private double distance;
-  private enum Target{
-    POWERCELL, HIGH, LOW;
+  public enum Target{
+    POWERCELL, HIGH, LOW, OLD;
+  }
+  private static  Limelight _instance = new Limelight();
+  public static Limelight getInstance(){
+    return _instance;
+  }
+  private Limelight(){
+
   }
   
 
@@ -35,7 +48,7 @@ public class Limelight extends Subsystem {
     return tx.getDouble(0);
   }
 
-  public double getDistanceToPowerCell(Target obj){
+  public double getDistanceToTarget(Target obj){
     Target target = obj;
     switch (target) {
       default: distance = 0;
@@ -48,7 +61,17 @@ public class Limelight extends Subsystem {
       case LOW:
         distance = 0;
         break;
+      case OLD:
+        distance = 190.42 * Math.pow(ta.getDouble(0), -0.471);
+        break;
     };
     return distance;
   }
+  public void setPipeline(double pipe){
+    pipeline.setDouble(pipe);
+  }
+  public Supplier<VisionData> getVDSupplier(){
+    pipeline.setDouble(2.0);
+    return () -> new VisionData(tx.getDouble(0), getDistanceToTarget(Target.POWERCELL), tv.getBoolean(false));
+  } 
 }

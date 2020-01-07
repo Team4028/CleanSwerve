@@ -2,6 +2,7 @@ package com.swervedrivespecialties.exampleswerve;
 
 import com.swervedrivespecialties.exampleswerve.commands.auton.LineDrive;
 import com.swervedrivespecialties.exampleswerve.autonomous.Trajectories;
+import com.swervedrivespecialties.exampleswerve.commands.auton.DriveIn;
 import com.swervedrivespecialties.exampleswerve.commands.auton.FollowTrajectory;
 import com.swervedrivespecialties.exampleswerve.commands.drive.RotateToAngleTimed;
 import com.swervedrivespecialties.exampleswerve.commands.drive.RotateToLLTargetTimed;
@@ -11,6 +12,7 @@ import com.swervedrivespecialties.exampleswerve.commands.drive.ToggleMinSpeed;
 import com.swervedrivespecialties.exampleswerve.commands.shooter.TogglePunches;
 import com.swervedrivespecialties.exampleswerve.commands.shooter.ToggleRunShooter;
 import com.swervedrivespecialties.exampleswerve.commands.shooter.ToggleSucc;
+import com.swervedrivespecialties.exampleswerve.subsystems.Limelight;
 import com.swervedrivespecialties.exampleswerve.commands.auton.TranslateCommandLL;
 import com.swervedrivespecialties.exampleswerve.commands.auton.autons.testAuto;
 import com.swervedrivespecialties.exampleswerve.commands.drive.ZeroGyro;
@@ -25,7 +27,8 @@ public class OI {
     /*
        Add your joysticks and buttons here
      */
-
+    
+     Limelight _limelight = Limelight.getInstance();
      BeakXboxController primaryJoystick = new BeakXboxController(0);
      BeakXboxController secondaryJoystick = new BeakXboxController(1);
 
@@ -38,6 +41,7 @@ public class OI {
         //primaryJoystick.lb.whenPressed(new FollowTrajectory(Trajectories.testTrajectorySupplier));
         primaryJoystick.lb.whenPressed(new testAuto());
         primaryJoystick.rb.whenPressed(new ToggleSucc());
+        primaryJoystick.a.whenPressed(new DriveIn(_limelight.getVDSupplier()));
         
         secondaryJoystick.a.whenPressed(new ToggleRunShooter());
         secondaryJoystick.b.whenPressed(new RunFeeder());

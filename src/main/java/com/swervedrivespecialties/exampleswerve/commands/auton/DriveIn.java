@@ -10,6 +10,7 @@ package com.swervedrivespecialties.exampleswerve.commands.auton;
 import java.util.function.Supplier;
 
 import com.swervedrivespecialties.exampleswerve.subsystems.DrivetrainSubsystem;
+import com.swervedrivespecialties.exampleswerve.subsystems.Limelight;
 import com.swervedrivespecialties.exampleswerve.util.VisionData;
 import com.swervedrivespecialties.exampleswerve.util.util;
 
@@ -22,7 +23,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveIn extends Command {
-  DrivetrainSubsystem drive = new DrivetrainSubsystem();
+  DrivetrainSubsystem drive = DrivetrainSubsystem.getInstance();
+  Limelight _limelight = Limelight.getInstance();
   Supplier<VisionData> vDataSupplier;
   VisionData vData;
 
@@ -37,8 +39,8 @@ public class DriveIn extends Command {
   Rotation2 curGyroAngle;
   Rotation2 lastGyroAngle;
 
-  PidConstants transPidConstants = new PidConstants(.05, 0., 0.);
-  PidConstants rotPidConstants = new PidConstants(.05, 0., 0.);
+  PidConstants transPidConstants = new PidConstants(.01, 0., 0.);
+  PidConstants rotPidConstants = new PidConstants(.007, 0., 0.);
   
   PidController transPidController = new PidController(transPidConstants);
   PidController rotPidController = new PidController(rotPidConstants);
@@ -63,24 +65,30 @@ public class DriveIn extends Command {
     curRot = Rotation2.fromDegrees(vData.getAngle());
     transPidController.setSetpoint(0);
     rotPidController.setSetpoint(0);
+    _limelight.setPipeline(2.0);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    updateTime();
-    updateGyroAngle();
-    updateDriveVec();
+    if (vDataSupplier.get().getSeesTarget()){
+      updateTime();
+      updateGyroAngle();
+      updateDriveVec();
     double transMult = transPidController.calculate(dist, dTime);
     Vector2 vec2drive = curPos.scale(transMult / curPos.length);  
     double angCmd = rotPidController.calculate(ang, dTime);
     drive.holonomicDrive(vec2drive, angCmd, false);
+    } else {
+      drive.stop();
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return util.epsilonEquals(dist, kDistanceEpsilon) && util.epsilonEquals(ang, kAngleEpsilon);
+    //return util.epsilonEquals(dist, kDistanceEpsilon) && util.epsilonEquals(ang, kAngleEpsilon);
+    return false;
   }
 
   // Called once after isFinished returns true
