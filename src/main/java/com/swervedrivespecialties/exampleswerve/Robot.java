@@ -5,7 +5,9 @@ import com.swervedrivespecialties.exampleswerve.commands.auton.QuickMath;
 import com.swervedrivespecialties.exampleswerve.autonomous.Trajectories;
 import com.swervedrivespecialties.exampleswerve.commands.shooter.RunShooter;
 import com.swervedrivespecialties.exampleswerve.subsystems.DrivetrainSubsystem;
+import com.swervedrivespecialties.exampleswerve.subsystems.Limelight;
 import com.swervedrivespecialties.exampleswerve.subsystems.Shooter;
+import com.swervedrivespecialties.exampleswerve.subsystems.Limelight.Target;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -22,6 +24,7 @@ public class Robot extends TimedRobot {
     private static final double UPDATE_DT = 5.0e-3;
 
     private static final OI oi = new OI();
+    private static final Limelight _limelight = Limelight.getInstance();
 
     private final SubsystemManager subsystemManager = new SubsystemManager(
             DrivetrainSubsystem.getInstance()
@@ -52,12 +55,16 @@ public class Robot extends TimedRobot {
         super.teleopPeriodic();
         System.out.println(DrivetrainSubsystem.getInstance().getMinSpeed());
         SmartDashboard.putBoolean("Limit Switch", Shooter.getInstance().getSwitch());
+        SmartDashboard.putNumber("LL X", _limelight.getAngle1());
+        SmartDashboard.putNumber("ll distance", _limelight.getDistanceToTarget(Target.POWERCELL));
+        SmartDashboard.putNumber("TA", _limelight.getTA());
     }
 
     @Override
     public void robotInit() {
         subsystemManager.enableKinematicLoop(UPDATE_DT);
         Trajectories.generateAllTrajectories();
+        _limelight.setPipeline(2.0);
     }
 
     @Override

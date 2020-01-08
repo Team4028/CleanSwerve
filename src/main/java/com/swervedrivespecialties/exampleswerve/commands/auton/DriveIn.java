@@ -11,6 +11,7 @@ import java.util.function.Supplier;
 
 import com.swervedrivespecialties.exampleswerve.subsystems.DrivetrainSubsystem;
 import com.swervedrivespecialties.exampleswerve.subsystems.Limelight;
+import com.swervedrivespecialties.exampleswerve.subsystems.Limelight.Target;
 import com.swervedrivespecialties.exampleswerve.util.VisionData;
 import com.swervedrivespecialties.exampleswerve.util.util;
 
@@ -23,94 +24,102 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveIn extends Command {
-  DrivetrainSubsystem drive = DrivetrainSubsystem.getInstance();
+  DrivetrainSubsystem _drive = DrivetrainSubsystem.getInstance();
   Limelight _limelight = Limelight.getInstance();
-  Supplier<VisionData> vDataSupplier;
-  VisionData vData;
 
-  double dist;
-  double ang;
+  double kLowRotPassAlpha = .5;
+  double lastRotCmd;
+  double kLowTransPassAlpha = .9;
+  double lastTransPhi;
 
-  Vector2 curPos;
-  Rotation2 curRot;
-
-  double lastTime;
-  double dTime;
-  Rotation2 curGyroAngle;
-  Rotation2 lastGyroAngle;
-
-  PidConstants transPidConstants = new PidConstants(.01, 0., 0.);
-  PidConstants rotPidConstants = new PidConstants(.007, 0., 0.);
+  PidConstants transPidConstants = new PidConstants(.005, 0., 0.);
+  PidConstants rotPidConstants = new PidConstants(.015, 0., 0.);
   
   PidController transPidController = new PidController(transPidConstants);
   PidController rotPidController = new PidController(rotPidConstants);
 
+  Vector2 lastDriveVec;
+  boolean hasFirstDriveVec;
+
+  Vector2 lastVec;
+  Vector2 dVec;
+
+  double lastPhi;
+  double dPhi;
+
   double kDistanceEpsilon = .5; 
   double kAngleEpsilon = 1.;
 
-  public DriveIn(Supplier<VisionData> vSupplier) {
+  double lastTime;
+  double dTime;
+
+  public DriveIn() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(drive);
-    vDataSupplier = vSupplier;
+    requires(_drive);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    curGyroAngle = drive.getGyroscope().getAngle();
-    lastTime = Timer.getFPGATimestamp();
-    vData = vDataSupplier.get();
-    curPos = vData.getVec();
-    curRot = Rotation2.fromDegrees(vData.getAngle());
     transPidController.setSetpoint(0);
     rotPidController.setSetpoint(0);
     _limelight.setPipeline(2.0);
+    lastTime = Timer.getFPGATimestamp();
+    lastRotCmd = 0;
+    hasFirstDriveVec = false;
+    lastVec = _drive.getKinematicPosition();
+    lastPhi = _drive.getGyroscope().getAngle().toDegrees();
+    dVec = Vector2.ZERO;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (vDataSupplier.get().getSeesTarget()){
-      updateTime();
-      updateGyroAngle();
-      updateDriveVec();
-    double transMult = transPidController.calculate(dist, dTime);
-    Vector2 vec2drive = curPos.scale(transMult / curPos.length);  
-    double angCmd = rotPidController.calculate(ang, dTime);
-    drive.holonomicDrive(vec2drive, angCmd, false);
+    updateTime();
+    updateDVec();
+    updatePhi();
+    double l;
+    double phi;
+    if (_limelight.getHasTarget()){
+      if (!hasFirstDriveVec){
+        hasFirstDriveVec = true;
+      }
+      l = _limelight.getDistanceToTarget(Target.POWERCELL);
+      phi = _limelight.getAngle1();
+      lastDriveVec = Vector2.fromAngle(Rotation2.fromDegrees(phi)).scale(l);
     } else {
-      drive.stop();
+      Vector2 res = guessUpdateKinematics();
+      if (res.length == 0){
+        l = 0;
+        phi = 0;
+      } else {
+        l = res.length;
+        phi = lastPhi - dPhi;
+      }
     }
+    double transMult = transPidController.calculate(l, dTime);
+    double angMult = getRotationCmd(phi);
+    _drive.holonomicDrive(Vector2.fromAngle(Rotation2.fromDegrees(getTransPhi(phi))).scale(-transMult), angMult, false);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    //return util.epsilonEquals(dist, kDistanceEpsilon) && util.epsilonEquals(ang, kAngleEpsilon);
-    return false;
+    return util.epsilonEquals(_limelight.getDistanceToTarget(Target.POWERCELL), kDistanceEpsilon) && util.epsilonEquals(_limelight.getAngle1(), kAngleEpsilon);
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    drive.stop();
+    _drive.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    drive.stop();
-  }
-
-  private void guessUpdateKinematics(){
-    Vector2 velo = drive.getKinematicVelocity().rotateBy(curGyroAngle);
-    Vector2 dPos = velo.scale(dTime);
-    curPos = curPos.subtract(dPos);
-    curRot = curRot.rotateBy(curGyroAngle.rotateBy(lastGyroAngle.inverse())); //the parentheses could change here since SO(2) is abelian
-    dist = curPos.length;
-    ang = curRot.toDegrees();
+    _drive.stop();
   }
 
   private void updateTime(){
@@ -118,20 +127,40 @@ public class DriveIn extends Command {
     lastTime += dTime;
   }
 
-  private void updateGyroAngle(){
-    lastGyroAngle = curGyroAngle;
-    curGyroAngle = drive.getGyroscope().getAngle();
+  private double applyRotLowPass(double thisRotCmd, double lastRotCmd){
+    return kLowRotPassAlpha * thisRotCmd + (1 - kLowRotPassAlpha) * lastRotCmd;
+  }
+  private double applyTransLowPass(double thisTransPhi, double lastTransPhi){
+    return kLowTransPassAlpha * thisTransPhi + (1 - kLowTransPassAlpha) * lastTransPhi;
   }
 
-  private void updateDriveVec(){
-    vData = vDataSupplier.get();
-    if (vData.getSeesTarget()){
-      curPos = vData.getVec();
-      ang = vData.getAngle();
-      curRot = Rotation2.fromDegrees(ang);
-      dist = curPos.length;
+  private double getRotationCmd(double phi){
+    double rawRotCmd = rotPidController.calculate(phi, dTime);
+    lastRotCmd = applyRotLowPass(rawRotCmd, lastRotCmd);
+    return lastRotCmd;
+  }
+  private double getTransPhi(double phi){
+    double rawPhi = phi;
+    lastTransPhi = applyTransLowPass(rawPhi, lastTransPhi);
+    return lastTransPhi;
+  }
+
+  private void updateDVec(){
+    dVec = _drive.getKinematicPosition().subtract(lastVec);
+    lastDriveVec = lastVec.add(dVec);
+  }
+
+  private void updatePhi(){
+    dPhi = _drive.getGyroscope().getAngle().toDegrees();
+    lastPhi += dPhi;
+  }
+
+  private Vector2 guessUpdateKinematics(){
+    if (!hasFirstDriveVec){
+      lastDriveVec = lastDriveVec.subtract(dVec);
+      return lastDriveVec;
     } else {
-      guessUpdateKinematics();
+      return Vector2.ZERO;
     }
   }
 }

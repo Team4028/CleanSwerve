@@ -41,7 +41,7 @@ public class OI {
         //primaryJoystick.lb.whenPressed(new FollowTrajectory(Trajectories.testTrajectorySupplier));
         primaryJoystick.lb.whenPressed(new testAuto());
         primaryJoystick.rb.whenPressed(new ToggleSucc());
-        primaryJoystick.a.whenPressed(new DriveIn(_limelight.getVDSupplier()));
+        primaryJoystick.a.whenPressed(new DriveIn());
         
         secondaryJoystick.a.whenPressed(new ToggleRunShooter());
         secondaryJoystick.b.whenPressed(new RunFeeder());

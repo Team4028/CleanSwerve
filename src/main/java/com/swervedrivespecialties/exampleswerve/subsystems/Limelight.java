@@ -47,13 +47,16 @@ public class Limelight extends Subsystem {
   public double getAngle1(){
     return tx.getDouble(0);
   }
+  public double getTA(){
+    return ta.getDouble(0);
+  }
 
   public double getDistanceToTarget(Target obj){
     Target target = obj;
     switch (target) {
       default: distance = 0;
       case POWERCELL:
-        distance = 53.407 * Math.pow(ta.getDouble(0), 0.533);
+        distance = 64.572 * Math.pow(ta.getDouble(0), -0.455);
         break;
       case HIGH:
         distance = 0;
@@ -74,4 +77,8 @@ public class Limelight extends Subsystem {
     pipeline.setDouble(2.0);
     return () -> new VisionData(tx.getDouble(0), getDistanceToTarget(Target.POWERCELL), tv.getBoolean(false));
   } 
+
+  public boolean getHasTarget(){
+    return tv.getBoolean(false);
+  }
 }
