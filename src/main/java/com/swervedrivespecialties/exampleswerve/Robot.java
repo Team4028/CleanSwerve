@@ -53,7 +53,6 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         super.teleopPeriodic();
-        System.out.println(DrivetrainSubsystem.getInstance().getMinSpeed());
         SmartDashboard.putBoolean("Limit Switch", Shooter.getInstance().getSwitch());
         SmartDashboard.putNumber("LL X", _limelight.getAngle1());
         SmartDashboard.putNumber("ll distance", _limelight.getDistanceToTarget(Target.POWERCELL));

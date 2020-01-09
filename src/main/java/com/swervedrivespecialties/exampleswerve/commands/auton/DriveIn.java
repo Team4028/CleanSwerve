@@ -29,25 +29,23 @@ public class DriveIn extends Command {
 
   double kLowRotPassAlpha = .5;
   double lastRotCmd;
-  double kLowTransPassAlpha = .9;
+  double kLowTransPassAlpha = .97;
   double lastTransPhi;
+  double kTransF = 0.075;
 
-  PidConstants transPidConstants = new PidConstants(.005, 0., 0.);
-  PidConstants rotPidConstants = new PidConstants(.015, 0., 0.);
+  PidConstants transPidConstants = new PidConstants(.005, 0., 0.); //.005
+  PidConstants rotPidConstants = new PidConstants(.012, 0., 0.);
   
   PidController transPidController = new PidController(transPidConstants);
   PidController rotPidController = new PidController(rotPidConstants);
 
-  Vector2 lastDriveVec;
   boolean hasFirstDriveVec;
 
-  Vector2 lastVec;
-  Vector2 dVec;
+  Vector2 driveVec;
+  double l;
+  double phi;
 
-  double lastPhi;
-  double dPhi;
-
-  double kDistanceEpsilon = .5; 
+  double kDistanceEpsilon = 11.5; 
   double kAngleEpsilon = 1.;
 
   double lastTime;
@@ -67,38 +65,39 @@ public class DriveIn extends Command {
     _limelight.setPipeline(2.0);
     lastTime = Timer.getFPGATimestamp();
     lastRotCmd = 0;
+    l = 0;
+    phi = 0;
+    driveVec = Vector2.ZERO;
     hasFirstDriveVec = false;
-    lastVec = _drive.getKinematicPosition();
-    lastPhi = _drive.getGyroscope().getAngle().toDegrees();
-    dVec = Vector2.ZERO;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     updateTime();
-    updateDVec();
-    updatePhi();
-    double l;
-    double phi;
     if (_limelight.getHasTarget()){
       if (!hasFirstDriveVec){
         hasFirstDriveVec = true;
       }
       l = _limelight.getDistanceToTarget(Target.POWERCELL);
       phi = _limelight.getAngle1();
-      lastDriveVec = Vector2.fromAngle(Rotation2.fromDegrees(phi)).scale(l);
+      driveVec = Vector2.fromAngle(Rotation2.fromDegrees(phi)).scale(l);
     } else {
-      Vector2 res = guessUpdateKinematics();
-      if (res.length == 0){
+      if (!hasFirstDriveVec){
         l = 0;
         phi = 0;
+        driveVec = Vector2.ZERO;
       } else {
-        l = res.length;
-        phi = lastPhi - dPhi;
+        double lastTarg = Math.atan2(driveVec.y, driveVec.x);
+        driveVec = driveVec.subtract(_drive.getKinematicVelocity().rotateBy(_drive.getGyroscope().getAngle().inverse()).scale(dTime));
+        double curTarg = Math.atan2(driveVec.y, driveVec.x);
+        double deltaTarg = curTarg - lastTarg;
+        l = driveVec.length;
+        phi += _drive.getGyroscope().getRate() * dTime - deltaTarg;
       }
     }
-    double transMult = transPidController.calculate(l, dTime);
+    System.out.println("Length: " + l);
+    double transMult = transPidController.calculate(l, dTime) + Math.copySign(kTransF, transPidController.calculate(l, dTime));
     double angMult = getRotationCmd(phi);
     _drive.holonomicDrive(Vector2.fromAngle(Rotation2.fromDegrees(getTransPhi(phi))).scale(-transMult), angMult, false);
   }
@@ -106,7 +105,7 @@ public class DriveIn extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return util.epsilonEquals(_limelight.getDistanceToTarget(Target.POWERCELL), kDistanceEpsilon) && util.epsilonEquals(_limelight.getAngle1(), kAngleEpsilon);
+    return util.epsilonEquals(l, kDistanceEpsilon) && util.epsilonEquals(phi, kAngleEpsilon) && hasFirstDriveVec;
   }
 
   // Called once after isFinished returns true
@@ -143,24 +142,5 @@ public class DriveIn extends Command {
     double rawPhi = phi;
     lastTransPhi = applyTransLowPass(rawPhi, lastTransPhi);
     return lastTransPhi;
-  }
-
-  private void updateDVec(){
-    dVec = _drive.getKinematicPosition().subtract(lastVec);
-    lastDriveVec = lastVec.add(dVec);
-  }
-
-  private void updatePhi(){
-    dPhi = _drive.getGyroscope().getAngle().toDegrees();
-    lastPhi += dPhi;
-  }
-
-  private Vector2 guessUpdateKinematics(){
-    if (!hasFirstDriveVec){
-      lastDriveVec = lastDriveVec.subtract(dVec);
-      return lastDriveVec;
-    } else {
-      return Vector2.ZERO;
-    }
   }
 }

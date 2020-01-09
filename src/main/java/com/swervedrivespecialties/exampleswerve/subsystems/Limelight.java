@@ -56,7 +56,8 @@ public class Limelight extends Subsystem {
     switch (target) {
       default: distance = 0;
       case POWERCELL:
-        distance = 64.572 * Math.pow(ta.getDouble(0), -0.455);
+        double hypot = 63.971 * Math.pow(ta.getDouble(0), -0.461);
+        distance = hypot > 8.5 ? Math.sqrt(hypot * hypot - 8.5 * 8.5) : 0;
         break;
       case HIGH:
         distance = 0;
@@ -79,6 +80,6 @@ public class Limelight extends Subsystem {
   } 
 
   public boolean getHasTarget(){
-    return tv.getBoolean(false);
+    return tv.getDouble(0.0) != 0.0;
   }
 }
