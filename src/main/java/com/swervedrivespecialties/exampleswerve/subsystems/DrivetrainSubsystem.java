@@ -170,4 +170,8 @@ public class DrivetrainSubsystem extends SwerveDrivetrain {
             isRunningSaaar = false;
         }
     }
+
+    public double getGyroAngleDegrees(){
+        return this.getGyroscope().getAngle().toDegrees();
+    }
 }

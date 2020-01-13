@@ -41,6 +41,7 @@ public class Robot extends TimedRobot {
         Command runShooter = new RunShooter();
         runShooter.start();
         DrivetrainSubsystem.getInstance().resetMinSpeed();
+        _limelight.setPipeline(0.0);
     }
 
     @Override
@@ -57,6 +58,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("LL X", _limelight.getAngle1());
         SmartDashboard.putNumber("ll distance", _limelight.getDistanceToTarget(Target.POWERCELL));
         SmartDashboard.putNumber("TA", _limelight.getTA());
+        SmartDashboard.putNumber("TShort", _limelight.getBoxShortLength());
     }
 
     @Override

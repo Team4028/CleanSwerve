@@ -136,6 +136,6 @@ public class saaar extends Command {
 
   private double updateStrafe(){
     double strafe = -Robot.getOi().getRawStrafeCmd();
-    return  Math.copySign(Math.pow(strafe, 2.0), strafe) * kStrafeSpeedScale;
+    return Math.copySign(Math.pow(strafe, 2.0), strafe) * kStrafeSpeedScale;
   }
 }
