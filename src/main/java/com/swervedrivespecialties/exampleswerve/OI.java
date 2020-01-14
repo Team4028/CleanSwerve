@@ -1,6 +1,8 @@
 package com.swervedrivespecialties.exampleswerve;
 
 import com.swervedrivespecialties.exampleswerve.commands.auton.LineDrive;
+import com.swervedrivespecialties.exampleswerve.commands.auton.LockAndLoad;
+import com.swervedrivespecialties.exampleswerve.commands.auton.LockIn;
 import com.swervedrivespecialties.exampleswerve.autonomous.Trajectories;
 import com.swervedrivespecialties.exampleswerve.commands.auton.DriveIn;
 import com.swervedrivespecialties.exampleswerve.commands.auton.FollowTrajectory;
@@ -39,7 +41,8 @@ public class OI {
         primaryJoystick.x.whenPressed(new RotateToLLTargetTimed(1.5));
         primaryJoystick.start.whenPressed(new ToggleFieldOriented());
         //primaryJoystick.lb.whenPressed(new FollowTrajectory(Trajectories.testTrajectorySupplier));
-        primaryJoystick.lb.whenPressed(new testAuto());
+        //primaryJoystick.lb.whenPressed(new testAuto());
+        primaryJoystick.lb.whenPressed(new LockIn());
         primaryJoystick.rb.whenPressed(new ToggleSucc());
         primaryJoystick.a.whenPressed(new DriveIn());
         

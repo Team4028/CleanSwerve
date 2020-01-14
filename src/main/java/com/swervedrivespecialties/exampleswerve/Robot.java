@@ -41,6 +41,7 @@ public class Robot extends TimedRobot {
         Command runShooter = new RunShooter();
         runShooter.start();
         DrivetrainSubsystem.getInstance().resetMinSpeed();
+        _limelight.setPipeline(0.0);
     }
 
     @Override
