@@ -55,7 +55,7 @@ public class Robot extends TimedRobot {
         super.teleopPeriodic();
         SmartDashboard.putBoolean("Limit Switch", Shooter.getInstance().getSwitch());
         SmartDashboard.putNumber("LL X", _limelight.getAngle1());
-        SmartDashboard.putNumber("ll distance", Math.sqrt(Math.pow(_limelight.getDistanceToTarget(Target.HIGH), 2) - Math.pow(94, 2)));
+        SmartDashboard.putNumber("ll distance", _limelight.getDistanceToTarget(Target.HIGH));
         SmartDashboard.putNumber("TA", _limelight.getTA());
         SmartDashboard.putNumber("TShort", _limelight.getBoxShortLength());
     }
@@ -64,13 +64,13 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         subsystemManager.enableKinematicLoop(UPDATE_DT);
         Trajectories.generateAllTrajectories();
-        _limelight.setPipeline(2.0);
+        _limelight.setPipeline(6.0);
     }
 
     @Override
     public void robotPeriodic() {
         subsystemManager.outputToSmartDashboard();
         Scheduler.getInstance().run();
-        SmartDashboard.putNumber("ll distance", Math.sqrt(Math.pow(_limelight.getDistanceToTarget(Target.HIGH), 2) - Math.pow(94, 2)));
+        //SmartDashboard.putNumber("ll distance", _limelight.getDistanceToTarget(Target.HIGH));
     }
 }
