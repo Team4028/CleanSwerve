@@ -9,6 +9,7 @@ import com.swervedrivespecialties.exampleswerve.subsystems.Limelight;
 import com.swervedrivespecialties.exampleswerve.subsystems.Shooter;
 import com.swervedrivespecialties.exampleswerve.subsystems.Limelight.Target;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -41,7 +42,7 @@ public class Robot extends TimedRobot {
         Command runShooter = new RunShooter();
         runShooter.start();
         DrivetrainSubsystem.getInstance().resetMinSpeed();
-        _limelight.setPipeline(0.0);
+        _limelight.setPipeline(6.0);
     }
 
     @Override
@@ -56,9 +57,11 @@ public class Robot extends TimedRobot {
         super.teleopPeriodic();
         SmartDashboard.putBoolean("Limit Switch", Shooter.getInstance().getSwitch());
         SmartDashboard.putNumber("LL X", _limelight.getAngle1());
-        SmartDashboard.putNumber("ll distance", _limelight.getDistanceToTarget(Target.HIGH));
         SmartDashboard.putNumber("TA", _limelight.getTA());
         SmartDashboard.putNumber("TShort", _limelight.getBoxShortLength());
+        SmartDashboard.putNumber("ll distance", _limelight.getDistanceToTarget(Target.HIGH));
+        SmartDashboard.putNumber("TS", _limelight.getSkew());
+        SmartDashboard.putNumber("TY", _limelight.getYAng());
     }
 
     @Override

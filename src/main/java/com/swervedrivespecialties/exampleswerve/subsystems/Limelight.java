@@ -26,6 +26,7 @@ public class Limelight extends Subsystem {
   private NetworkTableEntry tv = nt.getEntry("tv");
   private NetworkTableEntry tshort = nt.getEntry("tshort");
   private NetworkTableEntry ty = nt.getEntry("ty");
+  private NetworkTableEntry ts = nt.getEntry("ts");
   private NetworkTableEntry pipeline = nt.getEntry("pipeline");
   private double distance;
   public enum Target{
@@ -55,6 +56,12 @@ public class Limelight extends Subsystem {
   public double getBoxShortLength(){
     return tshort.getDouble(0);
   }
+  public double getSkew(){
+    return ts.getDouble(0);
+  }
+  public double getYAng(){
+    return ty.getDouble(0);
+  }
 
   public double getDistanceToTarget(Target obj){
     Target target = obj;
@@ -67,7 +74,7 @@ public class Limelight extends Subsystem {
       case HIGH:
         //distance = 214.81 * Math.pow(ta.getDouble(0), -0.418);
         //distance = Math.sqrt(Math.pow(9448.3 * Math.pow(tshort.getDouble(0), -0.904), 2) - Math.pow(94, 2));
-        distance = 94/Math.tan(Math.toRadians(8.8 + ty.getDouble(0)));
+        distance = 86.25/Math.tan(Math.toRadians(6.55 + ty.getDouble(0)));
         break;
       case LOW:
         distance = 0;

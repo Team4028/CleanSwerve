@@ -9,7 +9,7 @@ package com.swervedrivespecialties.exampleswerve.commands.drive;
 
 import com.swervedrivespecialties.exampleswerve.Robot;
 import com.swervedrivespecialties.exampleswerve.subsystems.DrivetrainSubsystem;
-
+import com.swervedrivespecialties.exampleswerve.subsystems.Limelight;
 
 import org.frcteam2910.common.math.Vector2;
 
@@ -23,15 +23,12 @@ public class RotateToLLTarget extends Command {
 
   DrivetrainSubsystem _drive = DrivetrainSubsystem.getInstance();
   private double _theta, _rotateCommand;
+  private Limelight _limelight = Limelight.getInstance();
 
   private double kAcceptableError = 0.8;
   private double ff = .11;
   private double p = .01;
-
-  
-
-  private NetworkTable nt = NetworkTableInstance.getDefault().getTable("limelight");
-	private NetworkTableEntry tx = nt.getEntry("tx");
+  private double tx = _limelight.getAngle1();
 
   public RotateToLLTarget() {
     requires(_drive);
@@ -45,7 +42,7 @@ public class RotateToLLTarget extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    _theta = tx.getDouble(0);
+    _theta = _limelight.getAngle1();
     _rotateCommand = Math.abs(_theta) > kAcceptableError ? -Math.copySign(Math.pow(Math.copySign(ff, _theta) + (p * _theta), 2), _theta): 0;
 
 

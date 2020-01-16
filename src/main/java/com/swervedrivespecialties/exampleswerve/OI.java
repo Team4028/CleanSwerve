@@ -38,7 +38,7 @@ public class OI {
         // Back button zeroes the drivetrain
         primaryJoystick.y.whenPressed(new ToggleMinSpeed());
         primaryJoystick.back.whenPressed(new ZeroGyro());
-        primaryJoystick.x.whenPressed(new RotateToLLTargetTimed(1.5));
+        primaryJoystick.x.whenPressed(new RotateToLLTargetTimed(2));
         primaryJoystick.start.whenPressed(new ToggleFieldOriented());
         //primaryJoystick.lb.whenPressed(new FollowTrajectory(Trajectories.testTrajectorySupplier));
         //primaryJoystick.lb.whenPressed(new testAuto());
